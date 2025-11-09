@@ -54,10 +54,10 @@ export default function HeroSection() {
       </div>
       
       <div 
-        className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 transition-transform duration-100 ease-out"
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12 sm:pb-20 transition-transform duration-100 ease-out"
         style={{ transform: `translateY(${scrollY * -0.1}px)` }}
       >
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Text Content */}
           <div className={`space-y-8 transition-all duration-1000 ease-out ${
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
@@ -71,7 +71,7 @@ export default function HeroSection() {
             </div>
 
             {/* Hero Heading */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-white">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-white">
               Capture Your<br/>
               <span 
                 className="inline-block bg-clip-text text-transparent"
@@ -85,23 +85,23 @@ export default function HeroSection() {
             </h1>
               
             {/* Description */}
-            <p className="text-lg md:text-xl leading-relaxed text-white/90">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-white/90">
               Connect with <span className="font-semibold text-white">world-class photographers</span> and videographers for any occasion.
             </p>
 
             {/* Premium Stats */}
-            <div className="flex gap-8">
+            <div className="flex flex-wrap gap-4 sm:gap-8">
               {[
                 { icon: TrendingUp, value: '5K+', label: 'Professionals' },
                 { icon: Star, value: '4.9★', label: 'Rating' },
                 { icon: Award, value: '50K+', label: 'Bookings' }
               ].map((stat, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-white/20 backdrop-blur-sm">
-                    <stat.icon className="w-6 h-6 text-white" />
+                <div key={index} className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center bg-white/20 backdrop-blur-sm">
+                    <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">{stat.value}</div>
+                    <div className="text-xl sm:text-2xl font-bold text-white">{stat.value}</div>
                     <div className="text-xs text-white/70">{stat.label}</div>
                   </div>
                 </div>
@@ -109,10 +109,10 @@ export default function HeroSection() {
             </div>
 
             {/* Premium CTA Buttons */}
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={() => window.location.href = '/search'}
-                className="group relative px-8 py-4 font-bold text-base rounded-2xl transition-all duration-300 hover:scale-105 shadow-xl overflow-hidden"
+                className="group relative px-6 sm:px-8 py-3 sm:py-4 font-bold text-sm sm:text-base rounded-2xl transition-all duration-300 hover:scale-105 shadow-xl overflow-hidden w-full sm:w-auto"
                 style={{ 
                   background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
                   color: 'white'
@@ -125,7 +125,7 @@ export default function HeroSection() {
                 <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
               </button>
               <button
-                className="group px-8 py-4 font-semibold text-base rounded-2xl border-2 transition-all duration-300 hover:scale-105 bg-white/20 backdrop-blur-sm border-white/30 text-white"
+                className="group px-6 sm:px-8 py-3 sm:py-4 font-semibold text-sm sm:text-base rounded-2xl border-2 transition-all duration-300 hover:scale-105 bg-white/20 backdrop-blur-sm border-white/30 text-white w-full sm:w-auto"
               >
                 <span className="flex items-center gap-2">
                   <Play className="w-5 h-5 group-hover:scale-110 transition-transform" />
