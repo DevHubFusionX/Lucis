@@ -13,7 +13,7 @@ const CATEGORIES = [
     count: '1,200+', 
     price: 'From $800',
     features: ['4K Quality', 'Same Day Edit', 'Online Gallery'],
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&crop=center'
+    image: '/wedding-photography.jpg'
   },
   { 
     icon: Video, 
@@ -22,7 +22,7 @@ const CATEGORIES = [
     count: '800+', 
     price: 'From $1,200',
     features: ['4K Video', 'Drone Shots', 'Highlight Reel'],
-    image: 'https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?w=400&h=300&fit=crop&crop=center'
+    image: '/wedding-videography.jpg'
   },
   { 
     icon: Users, 
@@ -31,7 +31,7 @@ const CATEGORIES = [
     count: '900+', 
     price: 'From $200',
     features: ['Studio/Outdoor', 'Retouching', 'Multiple Looks'],
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&crop=face'
+    image: '/portrait-photography.jpg'
   },
   { 
     icon: Camera, 
@@ -40,7 +40,7 @@ const CATEGORIES = [
     count: '600+', 
     price: 'From $400',
     features: ['Live Coverage', 'Quick Delivery', 'Group Photos'],
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=300&fit=crop&crop=center'
+    image: '/event-photography.jpg'
   }
 ];
 
@@ -67,9 +67,7 @@ export default function PopularCategories() {
           </p>
         </div>
         
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 transition-all duration-700 ease-out delay-200 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-        }`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {CATEGORIES.map((category, index) => {
             const Icon = category.icon;
             const isLarge = index === 0;
@@ -77,10 +75,13 @@ export default function PopularCategories() {
               <Link
                 key={category.name}
                 href={`/search?category=${category.name.toLowerCase().replace(' ', '-')}`}
-                className={`group relative overflow-hidden rounded-2xl transition-all duration-300 hover:scale-105 ${
+                className={`group relative overflow-hidden rounded-2xl transition-all duration-700 hover:scale-105 ${
                   isLarge ? 'md:col-span-2 md:row-span-2 h-96' : 'h-48'
+                } ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
                 }`}
                 style={{
+                  transitionDelay: `${index * 100}ms`,
                   backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url(${category.image})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'

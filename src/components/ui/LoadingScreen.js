@@ -37,7 +37,7 @@ export default function LoadingScreen({ onComplete }) {
       className={`fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md transition-all duration-500 ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
-      style={{ backgroundColor: theme.colors.copper.DEFAULT + '90' }}
+      style={{ backgroundColor: theme.colors.ocean.DEFAULT + '90' }}
     >
       <div className="text-center">
         {/* Animated Camera Icon */}

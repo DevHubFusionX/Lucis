@@ -1,10 +1,12 @@
-// Theme configuration for LUCIS - 2025 Burnt Copper & Sea Mist Palette
+// Theme configuration for LUCIS - Ocean Blue & Coral Palette
 export const theme = {
   colors: {
-    // Primary theme colors - 2025 Palette
+    // Primary theme colors - Ocean Blue & Coral
     primary: {
-      copper: '#A0430A',     // Burnt Copper - Primary brand color
-      seaMist: '#DFE8E6',    // Sea Mist - Secondary/background color
+      ocean: '#0A4D68',      // Deep Ocean Blue - Primary brand color
+      turquoise: '#088395',  // Turquoise - Secondary
+      coral: '#FF6B6B',      // Coral - Accent/CTA
+      light: '#F0F4F8',      // Light Blue Gray - Backgrounds
       dark: '#1A1A1A',       // Dark text
     },
     
@@ -23,37 +25,102 @@ export const theme = {
       muted: '#718096',       // Muted text
     },
     
-    // Brand colors - Burnt Copper primary
-    copper: {
-      50: '#FDF5F0',
-      100: '#FAEBD7',
-      200: '#F4D1B0',
-      300: '#EDB688',
-      400: '#D4824A',
-      500: '#A0430A',
-      600: '#8B3A09',
-      700: '#6B2D07',
-      800: '#4A1F05',
-      900: '#2A1103',
-      DEFAULT: '#A0430A',
-      hover: '#8B3A09',
-      light: '#D4824A',
+    // Brand colors - Ocean Blue primary
+    ocean: {
+      50: '#E8F4F8',
+      100: '#D1E9F1',
+      200: '#A3D3E3',
+      300: '#75BDD5',
+      400: '#47A7C7',
+      500: '#0A4D68',
+      600: '#083D53',
+      700: '#062E3E',
+      800: '#041E29',
+      900: '#020F14',
+      DEFAULT: '#0A4D68',
+      hover: '#083D53',
+      light: '#47A7C7',
     },
     
-    // Sea Mist variations
+    // Turquoise variations
+    turquoise: {
+      50: '#E8F8FA',
+      100: '#D1F1F5',
+      200: '#A3E3EB',
+      300: '#75D5E1',
+      400: '#47C7D7',
+      500: '#088395',
+      600: '#066977',
+      700: '#054F59',
+      800: '#03343B',
+      900: '#021A1E',
+      DEFAULT: '#088395',
+      hover: '#066977',
+      light: '#47C7D7',
+    },
+    
+    // Coral accent
+    coral: {
+      50: '#FFF0F0',
+      100: '#FFE1E1',
+      200: '#FFC3C3',
+      300: '#FFA5A5',
+      400: '#FF8787',
+      500: '#FF6B6B',
+      600: '#FF4D4D',
+      700: '#E63939',
+      800: '#B82E2E',
+      900: '#8A2323',
+      DEFAULT: '#FF6B6B',
+      hover: '#FF4D4D',
+      light: '#FF8787',
+    },
+    
+    // Light Blue Gray variations
+    lightBlue: {
+      50: '#F8FAFB',
+      100: '#F0F4F8',
+      200: '#E1E9F0',
+      300: '#D2DEE8',
+      400: '#C3D3E0',
+      500: '#B4C8D8',
+      600: '#8FA3B3',
+      700: '#6A7E8E',
+      800: '#455969',
+      900: '#203444',
+      DEFAULT: '#F0F4F8',
+      dark: '#C3D3E0',
+    },
+    
+    // Backward compatibility aliases
+    copper: {
+      50: '#E8F4F8',
+      100: '#D1E9F1',
+      200: '#A3D3E3',
+      300: '#75BDD5',
+      400: '#47A7C7',
+      500: '#0A4D68',
+      600: '#083D53',
+      700: '#062E3E',
+      800: '#041E29',
+      900: '#020F14',
+      DEFAULT: '#0A4D68',
+      hover: '#083D53',
+      light: '#47A7C7',
+    },
     seaMist: {
-      50: '#F7F9F8',
-      100: '#EFF4F2',
-      200: '#DFE8E6',
-      300: '#CFD9D6',
-      400: '#B8C7C2',
-      500: '#9FB0AB',
-      600: '#7A8B85',
-      700: '#5A6B65',
-      800: '#3D4B46',
-      900: '#252E2B',
-      DEFAULT: '#DFE8E6',
-      dark: '#B8C7C2',
+      50: '#F8FAFB',
+      100: '#F0F4F8',
+      200: '#E1E9F0',
+      300: '#D2DEE8',
+      400: '#C3D3E0',
+      500: '#B4C8D8',
+      600: '#8FA3B3',
+      700: '#6A7E8E',
+      800: '#455969',
+      900: '#203444',
+      DEFAULT: '#F0F4F8',
+      dark: '#C3D3E0',
     },
     
     // Neutral grays
@@ -98,17 +165,17 @@ export const theme = {
   // Section backgrounds
   sections: {
     hero: 'white',
-    features: 'seaMist',   // Sea Mist background
+    features: 'lightBlue', // Light Blue Gray background
     testimonials: 'white', // White background  
-    cta: 'copper',         // Burnt Copper background
+    cta: 'ocean',          // Ocean Blue background
     footer: 'dark',
   },
   
   // Button variants
   buttons: {
-    primary: 'copper',     // Burnt Copper for primary CTAs
-    secondary: 'seaMist',  // Sea Mist for secondary
-    ghost: 'transparent',  // Transparent with copper text
+    primary: 'coral',      // Coral for primary CTAs
+    secondary: 'ocean',    // Ocean Blue for secondary
+    ghost: 'transparent',  // Transparent with ocean text
     outline: 'border',     // Outlined buttons
   },
   
@@ -171,8 +238,8 @@ export const theme = {
     xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
     card: '0 4px 16px rgba(0, 0, 0, 0.08)',
     cardHover: '0 8px 32px rgba(0, 0, 0, 0.12)',
-    blueGlow: '0 0 20px rgba(30, 144, 255, 0.2)',
-    orangeGlow: '0 0 20px rgba(255, 122, 0, 0.2)',
+    oceanGlow: '0 0 20px rgba(10, 77, 104, 0.3)',
+    coralGlow: '0 0 20px rgba(255, 107, 107, 0.3)',
   },
   
   // Animation durations

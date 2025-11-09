@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '../ui/Button';
 import { NAV_ITEMS, BRAND } from '../../lib/constants';
 import { theme } from '../../lib/theme';
+import { Sparkles } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,64 +14,98 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const closeMenu = () => setIsOpen(false);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   return (
+    <>
     <nav 
-      className={`bg-white sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'shadow-md' : 'shadow-sm'
-      }`} 
-      style={{ borderBottom: `1px solid ${theme.colors.border}` }}
+      className={`fixed top-0 left-0 right-0 transition-all duration-500 ${
+        isScrolled 
+          ? 'bg-white/80 backdrop-blur-xl shadow-lg border-b' 
+          : 'bg-white/95 backdrop-blur-sm shadow-sm'
+      }`}
+      style={{ 
+        borderBottomColor: isScrolled ? theme.colors.lightBlue[200] : 'transparent',
+        zIndex: 50
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group" onClick={closeMenu}>
-            <div 
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-105" 
-              style={{ backgroundColor: theme.colors.copper.DEFAULT }}
-            >
-              <span className="text-white font-bold text-lg">{BRAND.logo}</span>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          {/* Premium Logo */}
+          <Link href="/" className="flex items-center gap-3 group" onClick={closeMenu}>
+            <div className="relative">
+              <div 
+                className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:rotate-3 shadow-md" 
+                style={{ 
+                  background: `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`,
+                }}
+              >
+                <span className="text-white font-bold text-xl tracking-tight">{BRAND.logo}</span>
+              </div>
+              <div 
+                className="absolute -top-1 -right-1 w-3 h-3 rounded-full animate-pulse"
+                style={{ backgroundColor: theme.colors.coral.DEFAULT }}
+              />
             </div>
             <div className="flex flex-col">
               <span 
-                className="font-bold text-xl leading-none transition-colors duration-200 group-hover:opacity-80" 
+                className="font-bold text-2xl leading-none tracking-tight transition-all duration-300" 
                 style={{ color: theme.colors.text.primary }}
               >
                 {BRAND.name}
               </span>
               <span 
-                className="text-xs font-medium" 
-                style={{ color: theme.colors.text.muted }}
+                className="text-xs font-semibold tracking-wider uppercase mt-0.5" 
+                style={{ color: theme.colors.ocean.DEFAULT }}
               >
-                Booking Platform
+                Premium Booking
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Premium Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative text-sm font-medium transition-all duration-200 pb-1 hover:opacity-80"
+                  className={`relative px-5 py-2.5 text-sm font-semibold transition-all duration-300 rounded-xl group ${
+                    isActive ? 'text-white' : ''
+                  }`}
                   style={{
-                    color: isActive ? theme.colors.copper.DEFAULT : theme.colors.text.secondary,
+                    color: isActive ? 'white' : theme.colors.text.secondary,
+                    backgroundColor: isActive ? theme.colors.ocean.DEFAULT : 'transparent',
                   }}
                 >
-                  {item.label}
+                  <span className="relative z-10">{item.label}</span>
+                  {!isActive && (
+                    <div 
+                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{ backgroundColor: theme.colors.lightBlue[100] }}
+                    />
+                  )}
                   {isActive && (
                     <div 
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full" 
-                      style={{ backgroundColor: theme.colors.copper.DEFAULT }}
+                      className="absolute inset-0 rounded-xl animate-pulse opacity-20"
+                      style={{ backgroundColor: 'white' }}
                     />
                   )}
                 </Link>
@@ -78,101 +113,123 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Action Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
+          {/* Premium Action Buttons */}
+          <div className="hidden lg:flex items-center gap-3">
             <Link href="/signin">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="transition-all duration-200"
-                style={{ color: theme.colors.text.secondary }}
-              >
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button 
-                size="sm" 
-                className="transition-all duration-200 hover:opacity-90 shadow-sm hover:shadow-md"
+              <button
+                className="px-6 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105"
                 style={{ 
-                  backgroundColor: theme.colors.copper.DEFAULT, 
-                  color: theme.colors.text.onCopper 
+                  color: theme.colors.text.primary,
+                  backgroundColor: 'transparent',
                 }}
               >
-                Sign Up
-              </Button>
+                Sign In
+              </button>
+            </Link>
+            <Link href="/signup">
+              <button
+                className="relative px-6 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg overflow-hidden group"
+                style={{ 
+                  background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
+                  color: 'white'
+                }}
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Get Started
+                  <Sparkles className="w-4 h-4" />
+                </span>
+                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+              </button>
             </Link>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Premium Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg transition-all duration-200 hover:opacity-80"
+            className="lg:hidden p-3 rounded-xl transition-all duration-300 hover:scale-105"
             style={{ 
-              color: theme.colors.text.secondary, 
-              backgroundColor: isOpen ? theme.colors.seaMist.DEFAULT : 'transparent' 
+              backgroundColor: isOpen ? theme.colors.ocean.DEFAULT : theme.colors.lightBlue[100],
+              color: isOpen ? 'white' : theme.colors.text.primary
             }}
             aria-label="Toggle menu"
           >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
         </div>
       </div>
+    </nav>
 
-      {/* Mobile Sidebar */}
+      {/* Premium Mobile Sidebar */}
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Premium Backdrop */}
           <div 
-            className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-md z-10"
+            style={{ animation: 'fadeIn 0.3s ease-out', zIndex: 9998 }}
             onClick={closeMenu}
           />
           
-          {/* Sidebar */}
-          <div className="md:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300">
-            <div className="p-6">
-              {/* Close Button */}
-              <div className="flex justify-between items-center mb-8">
-                <div className="flex items-center space-x-3">
+          {/* Premium Sidebar */}
+          <div 
+            className="lg:hidden fixed top-0 left-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl overflow-y-auto"
+            style={{ animation: 'slideInLeft 0.3s ease-out', zIndex: 9999 }}
+          >
+            <div className="min-h-full flex flex-col p-6">
+              {/* Premium Header */}
+              <div className="flex justify-between items-center mb-10">
+                <div className="flex items-center gap-3">
                   <div 
-                    className="w-8 h-8 rounded-lg flex items-center justify-center" 
-                    style={{ backgroundColor: theme.colors.copper.DEFAULT }}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center shadow-md" 
+                    style={{ 
+                      background: `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`
+                    }}
                   >
-                    <span className="text-white font-bold text-sm">{BRAND.logo}</span>
+                    <span className="text-white font-bold text-lg">{BRAND.logo}</span>
                   </div>
-                  <span className="font-bold text-lg" style={{ color: theme.colors.text.primary }}>
-                    {BRAND.name}
-                  </span>
+                  <div>
+                    <span className="font-bold text-xl block" style={{ color: theme.colors.text.primary }}>
+                      {BRAND.name}
+                    </span>
+                    <span className="text-xs font-semibold" style={{ color: theme.colors.ocean.DEFAULT }}>
+                      PREMIUM
+                    </span>
+                  </div>
                 </div>
                 <button
                   onClick={closeMenu}
-                  className="p-2 rounded-lg transition-colors"
-                  style={{ color: theme.colors.text.secondary }}
+                  className="p-2.5 rounded-xl transition-all duration-300 hover:scale-105"
+                  style={{ 
+                    backgroundColor: theme.colors.lightBlue[100],
+                    color: theme.colors.text.primary
+                  }}
                 >
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
               
-              {/* Navigation Links */}
-              <div className="space-y-2 mb-8">
-                {NAV_ITEMS.map((item) => {
+              {/* Premium Navigation Links */}
+              <div className="flex-1 space-y-2 mb-8">
+                {NAV_ITEMS.map((item, index) => {
                   const isActive = pathname === item.href;
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="block px-4 py-3 text-base font-medium rounded-xl transition-all duration-200"
+                      className="block px-5 py-4 text-base font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-md"
                       style={{
-                        color: isActive ? theme.colors.copper.DEFAULT : theme.colors.text.secondary,
-                        backgroundColor: isActive ? theme.colors.copper[50] : 'transparent'
+                        color: isActive ? 'white' : theme.colors.text.primary,
+                        background: isActive 
+                          ? `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`
+                          : theme.colors.lightBlue[50],
+                        animationDelay: `${index * 50}ms`
                       }}
                       onClick={closeMenu}
                     >
@@ -182,33 +239,36 @@ export default function Navbar() {
                 })}
               </div>
               
-              {/* Action Buttons */}
-              <div className="space-y-3">
+              {/* Premium Action Buttons */}
+              <div className="space-y-3 pt-6 border-t" style={{ borderColor: theme.colors.lightBlue[200] }}>
                 <Link href="/signin" className="block" onClick={closeMenu}>
-                  <Button 
-                    variant="ghost" 
-                    className="w-full justify-center py-3 text-base font-medium rounded-xl" 
-                    style={{ color: theme.colors.text.secondary }}
-                  >
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/signup" className="block" onClick={closeMenu}>
-                  <Button 
-                    className="w-full justify-center py-3 text-base font-medium rounded-xl shadow-sm" 
+                  <button
+                    className="w-full py-4 text-base font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02]"
                     style={{ 
-                      backgroundColor: theme.colors.copper.DEFAULT, 
-                      color: theme.colors.text.onCopper 
+                      backgroundColor: theme.colors.lightBlue[100],
+                      color: theme.colors.text.primary
                     }}
                   >
-                    Sign Up
-                  </Button>
+                    Sign In
+                  </button>
+                </Link>
+                <Link href="/signup" className="block" onClick={closeMenu}>
+                  <button
+                    className="w-full py-4 text-base font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl flex items-center justify-center gap-2"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
+                      color: 'white'
+                    }}
+                  >
+                    Get Started
+                    <Sparkles className="w-4 h-4" />
+                  </button>
                 </Link>
               </div>
             </div>
           </div>
         </>
       )}
-    </nav>
+    </>
   );
 }

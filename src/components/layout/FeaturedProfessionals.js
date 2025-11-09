@@ -15,7 +15,8 @@ const FEATURED_PROS = [
     location: "Lagos",
     badge: "Top Rated",
     verified: true,
-    type: "photographer"
+    type: "photographer",
+    image: "/professional-1.jpg"
   },
   {
     id: 2,
@@ -26,7 +27,8 @@ const FEATURED_PROS = [
     location: "Victoria Island",
     badge: "Most Booked",
     verified: true,
-    type: "photographer"
+    type: "photographer",
+    image: "/professional-2.jpg"
   },
   {
     id: 3,
@@ -37,7 +39,8 @@ const FEATURED_PROS = [
     location: "Abuja",
     badge: "New Talent",
     verified: true,
-    type: "videographer"
+    type: "videographer",
+    image: "/professional-3.jpg"
   },
   {
     id: 4,
@@ -48,7 +51,8 @@ const FEATURED_PROS = [
     location: "Ikeja",
     badge: "Top Rated",
     verified: true,
-    type: "photographer"
+    type: "photographer",
+    image: "/professional-4.jpg"
   }
 ];
 
@@ -56,19 +60,33 @@ export default function FeaturedProfessionals() {
   const [sectionRef, isVisible] = useScrollAnimation(0.1);
   
   return (
-    <section ref={sectionRef} className="py-24" style={{ backgroundColor: 'white' }}>
-      <div className="max-w-6xl mx-auto px-4">
+    <section ref={sectionRef} className="py-24" style={{ backgroundColor: theme.colors.lightBlue[50] }}>
+      <div className="max-w-7xl mx-auto px-6">
         
         {/* Header */}
         <div className={`text-center mb-16 transition-all duration-700 ease-out ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            <span style={{ color: theme.colors.text.primary }}>Featured</span>{' '}
-            <span style={{ color: theme.colors.copper.DEFAULT }}>Professionals</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border shadow-sm mb-4" style={{ borderColor: theme.colors.ocean[200] }}>
+            <Award className="w-4 h-4" style={{ color: theme.colors.ocean.DEFAULT }} />
+            <span className="text-sm font-bold uppercase tracking-wide" style={{ color: theme.colors.ocean.DEFAULT }}>
+              Top Professionals
+            </span>
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+            <span style={{ color: theme.colors.text.primary }}>Meet Our</span>{' '}
+            <span 
+              className="bg-clip-text text-transparent"
+              style={{ 
+                backgroundImage: `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>
+              Featured Experts
+            </span>
           </h2>
-          <p className="text-xl max-w-2xl mx-auto" style={{ color: theme.colors.text.secondary }}>
-            Discover our top-rated, verified creatives ready to capture your perfect moments.
+          <p className="text-lg max-w-2xl mx-auto" style={{ color: theme.colors.text.secondary }}>
+            Handpicked professionals with proven track records and exceptional reviews
           </p>
         </div>
 
@@ -82,43 +100,48 @@ export default function FeaturedProfessionals() {
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`} style={{ transitionDelay: `${index * 150}ms` }}>
                 
-                <div className="bg-white rounded-2xl p-6 shadow-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-2" style={{ borderColor: theme.colors.border }}>
+                <div className="bg-white rounded-2xl p-6 shadow-md border transition-all duration-300 hover:shadow-2xl hover:-translate-y-2" style={{ borderColor: theme.colors.lightBlue[200] }}>
                   
                   {/* Profile Photo & Badge */}
-                  <div className="relative mb-4">
-                    <div className="w-20 h-20 rounded-full mx-auto flex items-center justify-center" style={{ backgroundColor: theme.colors.copper.DEFAULT + '10' }}>
-                      <IconComponent className="w-10 h-10" style={{ color: theme.colors.copper.DEFAULT }} />
+                  <div className="relative mb-6">
+                    <div className="w-24 h-24 rounded-2xl mx-auto overflow-hidden shadow-lg">
+                      <img 
+                        src={pro.image} 
+                        alt={pro.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     
                     {/* Verified Badge */}
                     {pro.verified && (
-                      <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: theme.colors.copper.DEFAULT }}>
-                        <CheckCircle className="w-4 h-4 text-white" />
+                      <div className="absolute top-0 right-8 w-7 h-7 rounded-full flex items-center justify-center shadow-md" style={{ backgroundColor: theme.colors.coral.DEFAULT }}>
+                        <CheckCircle className="w-5 h-5 text-white" />
                       </div>
                     )}
-                    
-                    {/* Dynamic Badge */}
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-                      <span className="px-3 py-1 text-xs font-semibold rounded-full" style={{ 
-                        backgroundColor: pro.badge === 'Top Rated' ? theme.colors.copper.DEFAULT : 
-                                       pro.badge === 'Most Booked' ? '#10B981' : '#8B5CF6',
-                        color: 'white'
-                      }}>
-                        {pro.badge}
-                      </span>
-                    </div>
+                  </div>
+
+                  {/* Badge */}
+                  <div className="text-center mb-4">
+                    <span className="inline-block px-3 py-1 text-xs font-bold rounded-full" style={{ 
+                      backgroundColor: pro.badge === 'Top Rated' ? theme.colors.coral[100] : 
+                                     pro.badge === 'Most Booked' ? '#D1FAE5' : '#EDE9FE',
+                      color: pro.badge === 'Top Rated' ? theme.colors.coral.DEFAULT : 
+                             pro.badge === 'Most Booked' ? '#059669' : '#7C3AED'
+                    }}>
+                      {pro.badge}
+                    </span>
                   </div>
 
                   {/* Name & Skills */}
                   <div className="text-center mb-4">
-                    <h3 className="text-lg font-bold mb-2" style={{ color: theme.colors.text.primary }}>
+                    <h3 className="text-xl font-bold mb-3" style={{ color: theme.colors.text.primary }}>
                       {pro.name}
                     </h3>
-                    <div className="flex flex-wrap justify-center gap-1 mb-3">
+                    <div className="flex flex-wrap justify-center gap-2">
                       {pro.skills.map((skill, skillIndex) => (
-                        <span key={skillIndex} className="px-2 py-1 text-xs rounded-full" style={{ 
-                          backgroundColor: theme.colors.seaMist[100], 
-                          color: theme.colors.text.secondary 
+                        <span key={skillIndex} className="px-3 py-1 text-xs font-medium rounded-lg" style={{ 
+                          backgroundColor: theme.colors.lightBlue[100], 
+                          color: theme.colors.ocean.DEFAULT
                         }}>
                           {skill}
                         </span>
@@ -127,19 +150,19 @@ export default function FeaturedProfessionals() {
                   </div>
 
                   {/* Rating & Location */}
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center justify-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span className="font-semibold" style={{ color: theme.colors.text.primary }}>
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center justify-center gap-2 bg-yellow-50 rounded-lg py-2">
+                      <Star className="w-5 h-5 text-yellow-500 fill-current" />
+                      <span className="font-bold text-lg" style={{ color: theme.colors.text.primary }}>
                         {pro.rating}
                       </span>
                       <span className="text-sm" style={{ color: theme.colors.text.muted }}>
-                        ({pro.reviews})
+                        ({pro.reviews} reviews)
                       </span>
                     </div>
-                    <div className="flex items-center justify-center gap-1">
-                      <MapPin className="w-4 h-4" style={{ color: theme.colors.text.muted }} />
-                      <span className="text-sm" style={{ color: theme.colors.text.muted }}>
+                    <div className="flex items-center justify-center gap-2">
+                      <MapPin className="w-4 h-4" style={{ color: theme.colors.ocean.DEFAULT }} />
+                      <span className="text-sm font-medium" style={{ color: theme.colors.text.secondary }}>
                         {pro.location}
                       </span>
                     </div>
@@ -147,10 +170,10 @@ export default function FeaturedProfessionals() {
 
                   {/* View Profile Button */}
                   <button 
-                    className="w-full py-3 rounded-xl font-semibold transition-all duration-300 group-hover:scale-105"
+                    className="w-full py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-md"
                     style={{ 
-                      backgroundColor: theme.colors.copper.DEFAULT + '10', 
-                      color: theme.colors.copper.DEFAULT 
+                      background: `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`,
+                      color: 'white'
                     }}
                   >
                     View Profile
@@ -167,10 +190,13 @@ export default function FeaturedProfessionals() {
         }`}>
           <Link
             href="/search"
-            className="inline-block px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            style={{ backgroundColor: theme.colors.copper.DEFAULT, color: 'white' }}
+            className="inline-block px-10 py-5 rounded-2xl font-bold transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl"
+            style={{ 
+              background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
+              color: 'white'
+            }}
           >
-            Explore All Professionals
+            Explore All Professionals →
           </Link>
         </div>
       </div>
