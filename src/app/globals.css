@@ -1,26 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+* {
+  font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base colors */
+  --color-bg: #FFFFFF;
+  --color-surface: #F8F9FA;
+  
+  /* Text colors */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  
+  /* Brand colors */
+  --color-blue-50: #EFF6FF;
+  --color-blue-100: #DBEAFE;
+  --color-blue-500: #1E90FF;
+  --color-blue-600: #339CFF;
+  --color-blue-700: #0066CC;
+  
+  --color-orange-50: #FFF7ED;
+  --color-orange-100: #FFEDD5;
+  --color-orange-500: #FF7A00;
+  --color-orange-600: #FF9540;
+  --color-orange-700: #E55A00;
+  
+  /* Status colors */
+  --color-success-50: #F0FDF4;
+  --color-success-500: #10B981;
+  --color-success-600: #059669;
+  
+  --color-warning-50: #FFFBEB;
+  --color-warning-500: #F59E0B;
+  --color-warning-600: #D97706;
+  
+  --color-error-50: #FEF2F2;
+  --color-error-500: #EF4444;
+  --color-error-600: #DC2626;
+  
+  /* Utility colors */
+  --color-border: #E5E7EB;
+  --color-divider: #F3F4F6;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(30, 144, 255, 0.3);
+  
+  /* Animation durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  
+  /* Hero specific */
+  --hero-gradient: linear-gradient(135deg, #FFFFFF 0%, rgba(248, 249, 250, 0.3) 50%, #FFFFFF 100%);
+  --hero-text-gradient: linear-gradient(135deg, var(--color-blue-500) 0%, var(--color-blue-600) 50%, var(--color-orange-500) 100%);
+  --hero-glow: 0 0 40px rgba(30, 144, 255, 0.15);
+  
+  /* Typography scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+}
+
+/* Hero Section Styles */
+.hero-gradient {
+  background: var(--hero-gradient);
+}
+
+.hero-text-gradient {
+  background: var(--hero-text-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-glow {
+  box-shadow: var(--hero-glow);
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn var(--duration-slow) ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp var(--duration-slow) ease-out;
+}
+
+.animate-typing {
+  animation: typing 2s steps(20) infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes typing {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  width: calc(384px * 10 + 2rem * 9);
 }
