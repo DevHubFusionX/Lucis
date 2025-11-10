@@ -9,8 +9,8 @@ export const NAV_ITEMS = [
 // Brand configuration
 export const BRAND = {
   name: 'LUCIS',
-  logo: 'L',
-  tagline: 'Professional booking platform for creatives'
+  image: '/web-logo.png',
+ 
 };
 
 // Social proof data
