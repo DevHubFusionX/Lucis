@@ -1,103 +1,107 @@
 'use client';
 
-import { Search, Bell, Camera, ArrowRight } from 'lucide-react';
-import { theme } from '../../lib/theme';
+import { Search, UserCheck, Camera, Sparkles } from 'lucide-react';
 import { useScrollAnimation } from '../../lib/useScrollAnimation';
+
+const steps = [
+  {
+    number: '01',
+    icon: Search,
+    title: 'Discover',
+    description: 'Browse verified professionals in your area with detailed portfolios and reviews.',
+    image: 'https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800&h=600&fit=crop'
+  },
+  {
+    number: '02',
+    icon: UserCheck,
+    title: 'Connect',
+    description: 'Book instantly with real-time availability and transparent pricing.',
+    image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&h=600&fit=crop'
+  },
+  {
+    number: '03',
+    icon: Camera,
+    title: 'Create',
+    description: 'Collaborate with your photographer to capture unforgettable moments.',
+    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=600&fit=crop'
+  }
+];
 
 export default function HowItWorksSection() {
   const [sectionRef, isVisible] = useScrollAnimation(0.1);
 
-  const steps = [
-    {
-      icon: Search,
-      title: 'Search Nearby',
-      description: 'Use smart filters for skills, style, date, and distance.'
-    },
-    {
-      icon: Bell,
-      title: 'Book & Get Confirmed',
-      description: 'Instant notification when they accept or reject.'
-    },
-    {
-      icon: Camera,
-      title: 'Get Captured',
-      description: 'Rate, comment, and save memories securely.'
-    }
-  ];
-
   return (
-    <section ref={sectionRef} className="py-24" style={{ backgroundColor: 'white' }}>
-      <div className="max-w-6xl mx-auto px-4">
-        
-        {/* Header */}
-        <div className={`text-center mb-16 transition-all duration-700 ease-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+    <section id="how-it-works" ref={sectionRef} className="py-24 bg-white relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gray-900 rounded-full blur-3xl opacity-5" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gray-900 rounded-full blur-3xl opacity-5" />
+      
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
+        <div className={`text-center mb-20 transition-all duration-700 ease-out ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            <span style={{ color: theme.colors.text.primary }}>How It</span>{' '}
-            <span style={{ color: theme.colors.copper.DEFAULT }}>Works</span>
+          <div className="inline-flex items-center gap-2 mb-4">
+            <Sparkles className="w-5 h-5 text-gray-400" />
+            <span className="text-xs font-light tracking-[0.2em] uppercase text-gray-600">
+              Simple Process
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-gray-900 mb-4">
+            How It Works
           </h2>
-          <p className="text-xl max-w-2xl mx-auto" style={{ color: theme.colors.text.secondary }}>
-            Simple, fast, and in your control — 3 easy steps.
+          <p className="text-lg font-light text-gray-600 max-w-2xl mx-auto">
+            Three simple steps to connect with the perfect creative professional.
           </p>
         </div>
 
-        {/* Steps */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="space-y-32">
           {steps.map((step, index) => {
-            const IconComponent = step.icon;
+            const Icon = step.icon;
+            const isEven = index % 2 === 0;
             
             return (
-              <div key={index} className="relative">
-                <div className={`text-center transition-all duration-700 ease-out ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`} style={{ transitionDelay: `${index * 200}ms` }}>
-                  
-                  {/* Icon */}
-                  <div className="mb-6">
-                    <div 
-                      className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto shadow-lg"
-                      style={{ backgroundColor: theme.colors.copper.DEFAULT }}
-                    >
-                      <IconComponent className="w-10 h-10 text-white" />
-                    </div>
+              <div
+                key={step.number}
+                className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-700 ease-out ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
+              >
+                {/* Image */}
+                <div className={`relative ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className="w-full h-[400px] object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                   </div>
+                  
+                  {/* Floating number */}
+                  <div className="absolute -top-8 -left-8 w-24 h-24 rounded-full bg-gray-900 flex items-center justify-center shadow-2xl">
+                    <span className="text-3xl font-light text-white">{step.number}</span>
+                  </div>
+                </div>
 
-                  {/* Content */}
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold" style={{ color: theme.colors.text.primary }}>
+                {/* Content */}
+                <div className={`${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+                  <div className="max-w-lg">
+                    <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center mb-6">
+                      <Icon className="w-8 h-8 text-gray-900" />
+                    </div>
+                    
+                    <h3 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
                       {step.title}
                     </h3>
-                    <p className="text-lg" style={{ color: theme.colors.text.secondary }}>
+                    
+                    <p className="text-lg font-light text-gray-600 leading-relaxed">
                       {step.description}
                     </p>
                   </div>
                 </div>
-
-                {/* Arrow */}
-                {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-10 -right-4 z-10">
-                    <ArrowRight 
-                      className="w-8 h-8" 
-                      style={{ color: theme.colors.copper.DEFAULT }}
-                    />
-                  </div>
-                )}
               </div>
             );
           })}
-        </div>
-
-        {/* CTA */}
-        <div className={`text-center mt-16 transition-all duration-700 ease-out delay-600 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          <button 
-            className="px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105"
-            style={{ backgroundColor: theme.colors.copper.DEFAULT, color: 'white' }}
-          >
-            Get Started Now
-          </button>
         </div>
       </div>
     </section>

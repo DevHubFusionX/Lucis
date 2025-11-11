@@ -1,277 +1,200 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import Image from 'next/image';
-import { Search, Camera, Video, Heart, Star, MapPin, Play, ArrowRight, Sparkles, TrendingUp, Award } from 'lucide-react';
-import { Button } from '../ui/Button';
-import { theme } from '../../lib/theme';
-import { useScrollAnimation } from '../../lib/useScrollAnimation';
+import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { ArrowRight, Play, ChevronDown } from 'lucide-react';
+
+// If you have a theme file, replace this with your token (e.g., tokens.colors.accent)
+const ACCENT = '#C4A35A';
+
+function useIsVisible(threshold = 0.1) {
+  const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setIsVisible(true);
+      return;
+    }
+    const obs = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold }
+    );
+    obs.observe(el);
+    return () => {
+      obs.disconnect();
+    };
+  }, [threshold]);
+
+  return [ref, isVisible];
+}
+
+const heroImages = [
+  '/Hero-image.jpeg',
+  '/Hero-image3.webp',
+  '/Hero-image4.webp',
+  '/Hero-image14.jpg',
+  '/Hero-image15.jpg',
+  '/Hero-image16.jpg',
+  '/Hero-image17.jpg'
+];
 
 export default function HeroSection() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sectionRef, isVisible] = useScrollAnimation(0.1);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
-
-  const heroImages = useMemo(
-    () => [
-      '/Hero-image.jpeg',
-      '/Hero-image1.jpeg',
-      '/Hero-image3.webp',
-      '/Hero-image4.webp'
-    ],
-    []
-  );
+  const [sectionRef, isVisible] = useIsVisible(0.1);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 5000);
+      setCurrentIndex((prev) => (prev + 1) % heroImages.length);
+    }, 4000);
     return () => clearInterval(interval);
-  }, [heroImages.length]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const y = window.scrollY;
-      setScrollY(Math.min(Math.max(y, 0), 600));
-    };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleSearch = useCallback(() => {
-    const q = searchQuery.trim();
-    const url = q ? `/search?location=${encodeURIComponent(q)}` : '/search';
-    window.location.href = url;
-  }, [searchQuery]);
-
-  const onKeyDown = useCallback(
-    (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        handleSearch();
-      }
-    },
-    [handleSearch]
-  );
 
   return (
     <section
       ref={sectionRef}
+      className="relative min-h-screen flex items-center overflow-hidden bg-gray-50"
       aria-label="Hero section"
-      className="relative min-h-screen flex items-center overflow-hidden"
     >
-      {/* Background Image Carousel with Parallax */}
-      <div
-        className="absolute inset-0 will-change-transform transition-transform duration-150 ease-out"
-        style={{ transform: `translateY(${(scrollY * 0.25).toFixed(1)}px)` }}
-        aria-hidden="true"
-      >
-        {heroImages.map((image, index) => (
-          <Image
-            key={image}
-            src={image}
-            alt=""
-            fill
-            priority={index === 0}
-            className={`object-cover transition-opacity duration-1000 ${
-              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-            sizes="100vw"
-          />
-        ))}
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-            radial-gradient(1200px 600px at 20% 20%, ${theme.colors.ocean.light}20, transparent 60%),
-            radial-gradient(1200px 600px at 80% 80%, ${theme.colors.coral.light}20, transparent 60%)
-          `
-        }} />
+      {/* Diagonal Background Split */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-white" />
+        <div 
+          className="absolute inset-0 bg-gray-900 hidden lg:block" 
+          style={{ clipPath: 'polygon(60% 0, 100% 0, 100% 100%, 40% 100%)' }}
+        />
       </div>
 
-      <div
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12 sm:pb-20 transition-transform duration-150 ease-out w-full"
-        style={{ transform: `translateY(${(-scrollY * 0.08).toFixed(1)}px)` }}
-      >
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left Column */}
-          <div
-            className={`space-y-8 transition-all duration-700 ease-out ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'
-            }`}
-          >
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 w-full py-12 sm:py-16 lg:py-20">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-8 items-start">
+          {/* Left Content */}
+          <div className="lg:col-span-6 z-10 text-center lg:text-left">
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/30 shadow-md"
-              aria-label="Trusted by over 50,000 clients"
+              className={`inline-block mb-4 sm:mb-6 transition-all duration-1000 ease-out ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+              }`}
             >
-              <Star className="w-3.5 h-3.5 fill-current text-white" aria-hidden="true" />
-              <span className="text-xs font-bold tracking-wide uppercase text-white">
-                50,000+ Happy Clients
+              <span className="text-[10px] sm:text-xs font-light tracking-[0.15em] sm:tracking-[0.2em] uppercase text-gray-600">
+                Where Vision Meets Reality
               </span>
             </div>
 
-            <h1 className="text-white font-bold leading-[1.05] tracking-tight">
-              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-                Book top photographers & videographers
+            <h1
+              className={`mb-6 sm:mb-8 transition-all duration-1000 ease-out delay-200 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[0.95] tracking-tight text-gray-900 mb-2 sm:mb-3">
+                Every Frame
               </span>
               <span
-                className="mt-3 block text-4xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[400]} 100%)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
+                className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[0.95] tracking-tight"
+                style={{ color: ACCENT }}
               >
-                near you, today.
+                Tells a Story.
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-white/90 max-w-xl">
-              Vetted pros for weddings, events, brands, and more. Fast booking. Transparent pricing. Stunning results.
+            <p
+              className={`text-base sm:text-lg md:text-xl font-light leading-relaxed text-gray-700 mb-8 sm:mb-10 lg:mb-12 max-w-xl mx-auto lg:mx-0 transition-all duration-1000 ease-out delay-400 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              Connect with exceptional visual storytellers who transform fleeting moments into timeless art. Curated talent, seamless booking.
             </p>
 
-            <div className="flex flex-wrap gap-4 sm:gap-8" aria-label="Key platform stats">
-              {[
-                { icon: TrendingUp, value: '5K+', label: 'Professionals' },
-                { icon: Star, value: '4.9', label: 'Average Rating' },
-                { icon: Award, value: '50K+', label: 'Bookings' },
-              ].map(({ icon: Icon, value, label }) => (
-                <div key={label} className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center bg-white/15 backdrop-blur-sm">
-                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="text-xl sm:text-2xl font-bold text-white">{value}</div>
-                    <div className="text-xs text-white/70">{label}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <button
-                onClick={handleSearch}
-                className="group relative px-6 sm:px-8 py-3 sm:py-4 font-bold text-sm sm:text-base rounded-2xl transition-all duration-300 hover:scale-105 shadow-xl overflow-hidden w-full sm:w-auto"
-                style={{
-                  background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
-                  color: 'white',
-                }}
-                aria-label="Find professionals"
+            <div
+              className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start transition-all duration-1000 ease-out delay-600 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            >
+              <Link
+                href="/search"
+                className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white text-sm sm:text-base font-medium rounded-full transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  Find professionals
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </span>
-                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-15 transition-opacity duration-300" />
-              </button>
+                Discover Talent
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 transition-transform group-hover:translate-x-1" />
+              </Link>
 
               <button
                 type="button"
-                className="group px-6 sm:px-8 py-3 sm:py-4 font-semibold text-sm sm:text-base rounded-2xl border-2 transition-all duration-300 hover:scale-105 bg-white/15 backdrop-blur-sm border-white/30 text-white w-full sm:w-auto"
+                className="group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-gray-300 text-gray-900 text-sm sm:text-base font-light rounded-full transition-all duration-300 hover:bg-gray-100"
                 onClick={() => {
+                  if (typeof document === 'undefined') return;
                   const el = document.getElementById('how-it-works');
                   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                aria-label="Learn how it works"
               >
-                <span className="flex items-center gap-2">
-                  <Play className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
-                  How it works
-                </span>
+                <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2 transition-transform group-hover:scale-110" />
+                View Portfolio
               </button>
             </div>
           </div>
 
-          {/* Right Column */}
-          <div
-            className={`space-y-6 transition-all duration-700 ease-out delay-150 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'
-            }`}
-          >
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-2xl border border-white/20">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSearch();
-                }}
-                className="space-y-3"
-                role="search"
-                aria-label="Search photographers and videographers by location"
-              >
-                <div className="relative">
-                  <MapPin
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                    style={{ color: theme.colors.ocean.DEFAULT }}
-                    aria-hidden="true"
-                  />
-                  <input
-                    type="text"
-                    inputMode="text"
-                    placeholder="Search by city or area (e.g., London, SoHo)"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={onKeyDown}
-                    className="w-full pl-12 pr-4 py-4 rounded-xl border-0 focus:outline-none text-base font-medium bg-transparent placeholder-gray-400"
-                    style={{ color: theme.colors.text.primary }}
-                    aria-label="Location"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full py-4 font-bold text-base rounded-xl transition-all duration-300 hover:scale-105 shadow-md flex items-center justify-center gap-2"
-                  style={{
-                    background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
-                    color: 'white',
-                  }}
-                >
-                  <Search className="w-5 h-5" aria-hidden="true" />
-                  <span>Find Photographers</span>
-                </button>
-              </form>
+          {/* Right Floating Images */}
+          <div className="lg:col-span-6 relative h-[400px] sm:h-[500px] lg:h-[700px] mt-8 lg:mt-0">
+            {/* Large Main Image */}
+            <div
+              className={`absolute top-0 right-0 sm:right-4 lg:right-0 w-[200px] h-[280px] sm:w-[240px] sm:h-[340px] lg:w-[340px] lg:h-[460px] rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl transition-all duration-1000 ease-out delay-300 ${
+                isVisible ? 'opacity-100 translate-x-0 rotate-0' : 'opacity-0 translate-x-12 rotate-6'
+              }`}
+            >
+              {heroImages.map((img, idx) => (
+                <img
+                  key={img}
+                  src={img}
+                  alt="Professional photography"
+                  className={`w-full h-full object-cover absolute inset-0 transition-all duration-1000 ${
+                    idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
+                  }`}
+                />
+              ))}
             </div>
 
-            <div className="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex" aria-label="Rating 4.9 out of 5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-current"
-                      style={{ color: theme.colors.coral.DEFAULT }}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <span className="text-2xl font-bold" style={{ color: theme.colors.text.primary }}>
-                  4.9
-                </span>
-              </div>
-              <p className="text-sm" style={{ color: theme.colors.text.secondary }}>
-                Rated excellent by <span className="font-semibold" style={{ color: theme.colors.ocean.DEFAULT }}>50,000+ clients</span> worldwide
+            {/* Small Top Left */}
+            <div
+              className={`absolute top-8 sm:top-12 left-0 sm:left-4 lg:left-0 w-[120px] h-[160px] sm:w-[160px] sm:h-[220px] lg:w-[220px] lg:h-[300px] rounded-xl lg:rounded-2xl overflow-hidden shadow-xl transition-all duration-1000 ease-out delay-500 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-12'
+              }`}
+            >
+              <img
+                src={heroImages[(currentIndex + 1) % heroImages.length]}
+                alt="Photography work"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Medium Bottom Left */}
+            <div
+              className={`absolute bottom-0 left-8 sm:left-16 lg:left-12 w-[140px] h-[180px] sm:w-[180px] sm:h-[240px] lg:w-[240px] lg:h-[320px] rounded-xl lg:rounded-2xl overflow-hidden shadow-xl transition-all duration-1000 ease-out delay-700 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}
+            >
+              <img
+                src={heroImages[(currentIndex + 2) % heroImages.length]}
+                alt="Photography work"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Floating Badge */}
+            <div
+              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full px-4 py-2 sm:px-6 sm:py-3 shadow-2xl transition-all duration-1000 ease-out delay-900 ${
+                isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+              }`}
+            >
+              <p className="text-xs sm:text-sm font-light text-gray-900 whitespace-nowrap">
+                <span className="font-medium" style={{ color: ACCENT }}>2.5K+</span> Stories Told
               </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/95 backdrop-blur-md rounded-xl p-4 shadow-xl border border-white/20">
-                <div className="text-3xl font-bold mb-1" style={{ color: theme.colors.ocean.DEFAULT }}>
-                  5K+
-                </div>
-                <div className="text-sm" style={{ color: theme.colors.text.secondary }}>
-                  Professionals
-                </div>
-              </div>
-              <div className="bg-white/95 backdrop-blur-md rounded-xl p-4 shadow-xl border border-white/20">
-                <div className="text-3xl font-bold mb-1" style={{ color: theme.colors.coral.DEFAULT }}>
-                  50K+
-                </div>
-                <div className="text-sm" style={{ color: theme.colors.text.secondary }}>
-                  Bookings
-                </div>
-              </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <ChevronDown className="w-6 h-6 text-gray-400" />
       </div>
     </section>
   );

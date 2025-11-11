@@ -1,58 +1,46 @@
 'use client';
 
 import React from 'react';
-import { Check, Star, Crown, Zap } from 'lucide-react';
-import { theme } from '../../lib/theme';
+import { Check, Sparkles } from 'lucide-react';
 import { useScrollAnimation } from '../../lib/useScrollAnimation';
 
 const PRICING_TIERS = [
   {
-    name: 'Basic',
-    icon: Zap,
-    price: '₦45,000',
-    period: 'starting from',
-    description: 'Perfect for simple shoots and basic coverage',
+    name: 'Starter',
+    price: 'From $200',
+    description: 'Perfect for simple shoots',
     features: [
       '2-hour session',
       '50+ edited photos',
       'Online gallery',
-      'Basic retouching',
-      '48-hour delivery'
-    ],
-    popular: false
+      'Basic retouching'
+    ]
   },
   {
     name: 'Professional',
-    icon: Star,
-    price: '₦125,000',
-    period: 'starting from',
-    description: 'Ideal for events and professional shoots',
+    price: 'From $500',
+    description: 'Ideal for events',
     features: [
       '6-hour coverage',
       '200+ edited photos',
-      'Premium online gallery',
+      'Premium gallery',
       'Advanced retouching',
-      '24-hour delivery',
-      'Print release included'
+      '24-hour delivery'
     ],
     popular: true
   },
   {
     name: 'Premium',
-    icon: Crown,
-    price: '₦300,000',
-    period: 'starting from',
-    description: 'Complete coverage with cinematic quality',
+    price: 'From $1,200',
+    description: 'Complete coverage',
     features: [
       'Full day coverage',
       '500+ edited photos',
       '4K video highlights',
       'Professional retouching',
       'Same-day preview',
-      'Print release included',
       'Second photographer'
-    ],
-    popular: false
+    ]
   }
 ];
 
@@ -60,112 +48,83 @@ export default function ServicePricing() {
   const [sectionRef, isVisible] = useScrollAnimation(0.1);
 
   return (
-    <section ref={sectionRef} className="py-20" style={{ backgroundColor: theme.colors.bg.primary }}>
-      <div className="max-w-7xl mx-auto px-4">
-        
-        {/* Header */}
+    <section ref={sectionRef} className="py-24 bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className={`text-center mb-16 transition-all duration-700 ease-out ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <h2 className="text-4xl font-bold mb-4" style={{ color: theme.colors.text.primary }}>
-            Service <span style={{ color: theme.colors.copper.DEFAULT }}>Pricing</span>
+          <span className="text-xs font-light tracking-[0.2em] uppercase text-gray-600 mb-4 block">
+            Pricing
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-gray-900 mb-4">
+            Transparent Pricing
           </h2>
-          <p className="text-xl max-w-2xl mx-auto" style={{ color: theme.colors.text.secondary }}>
-            Transparent pricing for professional photography and videography services
+          <p className="text-lg font-light text-gray-600 max-w-2xl mx-auto">
+            Choose the package that fits your needs. All prices are starting rates.
           </p>
         </div>
 
-        {/* Pricing Cards */}
         <div className="grid md:grid-cols-3 gap-8">
           {PRICING_TIERS.map((tier, index) => (
-            <div 
+            <div
               key={tier.name}
-              className={`relative rounded-3xl p-8 transition-all duration-700 ease-out hover:scale-105 ${
-                tier.popular ? 'ring-2' : ''
-              } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
-              style={{ 
-                backgroundColor: tier.popular ? theme.colors.copper[50] : theme.colors.seaMist[25],
-                border: `1px solid ${tier.popular ? theme.colors.copper.DEFAULT : theme.colors.border}`,
-                ringColor: tier.popular ? theme.colors.copper.DEFAULT : 'transparent',
-                transitionDelay: `${index * 150}ms`
-              }}
+              className={`relative transition-all duration-700 ease-out ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
             >
-              {tier.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div 
-                    className="px-4 py-2 rounded-full text-sm font-semibold text-white"
-                    style={{ backgroundColor: theme.colors.copper.DEFAULT }}
-                  >
-                    Most Popular
+              <div className={`relative p-8 rounded-3xl bg-white border-2 transition-all duration-300 hover:shadow-2xl ${
+                tier.popular ? 'border-gray-900' : 'border-gray-200 hover:border-gray-300'
+              }`}>
+                {tier.popular && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <div className="flex items-center gap-2 px-4 py-1.5 bg-gray-900 text-white text-xs font-medium rounded-full">
+                      <Sparkles className="w-3 h-3" />
+                      <span>Most Popular</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className="text-center mb-8">
-                <div 
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
-                  style={{ backgroundColor: theme.colors.copper[100] }}
-                >
-                  {React.createElement(tier.icon, { className: "w-8 h-8", style: { color: theme.colors.copper.DEFAULT } })}
-                </div>
-                
-                <h3 className="text-2xl font-bold mb-2" style={{ color: theme.colors.text.primary }}>
-                  {tier.name}
-                </h3>
-                <p className="text-sm mb-4" style={{ color: theme.colors.text.secondary }}>
-                  {tier.description}
-                </p>
-                
-                <div className="mb-2">
-                  <span className="text-4xl font-bold" style={{ color: theme.colors.copper.DEFAULT }}>
+                <div className="mb-8">
+                  <h3 className="text-2xl font-light text-gray-900 mb-2">
+                    {tier.name}
+                  </h3>
+                  <p className="text-sm font-light text-gray-600 mb-6">
+                    {tier.description}
+                  </p>
+                  <div className="text-4xl font-light text-gray-900">
                     {tier.price}
-                  </span>
-                </div>
-                <div className="text-sm" style={{ color: theme.colors.text.muted }}>
-                  {tier.period}
-                </div>
-              </div>
-
-              <div className="space-y-4 mb-8">
-                {tier.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-center gap-3">
-                    <Check className="w-5 h-5 flex-shrink-0" style={{ color: theme.colors.copper.DEFAULT }} />
-                    <span style={{ color: theme.colors.text.secondary }}>{feature}</span>
                   </div>
-                ))}
-              </div>
+                </div>
 
-              <button 
-                className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg ${
-                  tier.popular ? 'text-white' : ''
-                }`}
-                style={{ 
-                  backgroundColor: tier.popular ? theme.colors.copper.DEFAULT : theme.colors.seaMist[100],
-                  color: tier.popular ? 'white' : theme.colors.text.primary,
-                  border: tier.popular ? 'none' : `1px solid ${theme.colors.border}`
-                }}
-              >
-                Get Started
-              </button>
+                <div className="space-y-3 mb-8">
+                  {tier.features.map((feature, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <Check className="w-5 h-5 text-gray-900 flex-shrink-0" />
+                      <span className="text-sm font-light text-gray-600">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <button className={`w-full py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 ${
+                  tier.popular
+                    ? 'bg-gray-900 text-white hover:shadow-xl'
+                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                }`}>
+                  Get Started
+                </button>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Bottom CTA */}
         <div className={`text-center mt-16 transition-all duration-700 ease-out delay-500 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <p className="text-lg mb-6" style={{ color: theme.colors.text.secondary }}>
-            Need a custom package? We'll create a solution that fits your specific needs.
+          <p className="text-base font-light text-gray-600 mb-6">
+            Need a custom package? We'll create a solution that fits your needs.
           </p>
-          <button 
-            className="px-8 py-4 rounded-xl font-semibold transition-all hover:shadow-lg"
-            style={{ 
-              backgroundColor: 'transparent',
-              color: theme.colors.copper.DEFAULT,
-              border: `2px solid ${theme.colors.copper.DEFAULT}`
-            }}
-          >
+          <button className="px-8 py-3 border-2 border-gray-300 text-gray-900 font-light rounded-full transition-all duration-300 hover:bg-gray-100 hover:border-gray-400">
             Request Custom Quote
           </button>
         </div>

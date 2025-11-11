@@ -1,139 +1,72 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Sparkles, Camera, Users, Star } from 'lucide-react';
-import { theme } from '@/lib/theme';
-import { BRAND } from '@/lib/constants';
+import { ArrowLeft } from 'lucide-react';
 
 export default function SignUpLayout({ children }) {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: theme.colors.seaMist[50] }}>
-      {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-4 sm:p-6">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+    <div className="min-h-screen flex">
+      <div className="flex-1 flex items-center justify-center p-8 bg-white">
+        <div className="w-full max-w-md">
           <Link 
             href="/" 
-            className="inline-flex items-center space-x-2 transition-colors"
-            style={{ color: theme.colors.text.secondary }}
+            className="inline-flex items-center gap-2 mb-8 text-gray-600 hover:text-gray-900 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm font-medium">Back</span>
+            <span className="text-sm font-light">Back</span>
           </Link>
           
-          <div className="flex items-center space-x-2">
-            <div 
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{ backgroundColor: theme.colors.copper.DEFAULT }}
-            >
-              <span className="text-white font-bold text-sm">{BRAND.logo}</span>
-            </div>
-            <span className="font-bold text-lg" style={{ color: theme.colors.text.primary }}>{BRAND.name}</span>
+          <div className="mb-8">
+            <h1 className="text-4xl font-light text-gray-900 mb-3">
+              Create Account
+            </h1>
+            <p className="text-base font-light text-gray-600">
+              Join our community of creative professionals
+            </p>
+          </div>
+          
+          {children}
+          
+          <div className="mt-8 text-center">
+            <p className="text-sm font-light text-gray-600">
+              Already have an account?{' '}
+              <Link 
+                href="/signin" 
+                className="text-gray-900 hover:underline"
+              >
+                Sign in
+              </Link>
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex items-center justify-center min-h-screen p-4 pt-20">
-        <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Hero */}
-          <div className="hidden lg:block">
-            <div className="text-center lg:text-left space-y-8">
-              <div 
-                className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6"
-                style={{ backgroundColor: theme.colors.copper.DEFAULT }}
-              >
-                <Sparkles className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <h1 className="text-4xl font-bold mb-4" style={{ color: theme.colors.text.primary }}>
-                  Join the Leading
-                  <br />
-                  <span style={{ color: theme.colors.copper.DEFAULT }}>Creative Platform</span>
-                </h1>
-                <p className="text-xl leading-relaxed" style={{ color: theme.colors.text.secondary }}>
-                  Connect with clients, showcase your work, and grow your creative business.
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-6">
-                <div 
-                  className="backdrop-blur-sm rounded-2xl p-6 text-center"
-                  style={{ backgroundColor: theme.colors.bg.primary, border: `1px solid ${theme.colors.border}` }}
-                >
-                  <div className="text-3xl font-bold mb-1" style={{ color: theme.colors.text.primary }}>5,000+</div>
-                  <div style={{ color: theme.colors.text.secondary }}>Active Users</div>
+      <div className="hidden lg:flex lg:flex-1 bg-gray-900 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-white rounded-full blur-3xl" />
+        </div>
+        
+        <div className="relative z-10 flex flex-col justify-center p-12 text-white">
+          <div className="max-w-md">
+            <h2 className="text-5xl font-light mb-6 leading-tight">
+              Join the Creative Community
+            </h2>
+            <p className="text-lg font-light text-gray-400 mb-12">
+              Connect with clients, showcase your work, and grow your business.
+            </p>
+            
+            <div className="space-y-4">
+              {[
+                'Free to join and browse',
+                'Verified professionals only', 
+                'Secure payment protection'
+              ].map((feature, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                  <span className="font-light text-gray-300">{feature}</span>
                 </div>
-                <div 
-                  className="backdrop-blur-sm rounded-2xl p-6 text-center"
-                  style={{ backgroundColor: theme.colors.bg.primary, border: `1px solid ${theme.colors.border}` }}
-                >
-                  <div className="text-3xl font-bold mb-1" style={{ color: theme.colors.text.primary }}>4.9★</div>
-                  <div style={{ color: theme.colors.text.secondary }}>Rating</div>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                {[
-                  { icon: Users, text: 'Verified professionals only' },
-                  { icon: Star, text: 'Secure payment protection' },
-                  { icon: Camera, text: 'Free to join and browse' }
-                ].map((feature, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <div 
-                      className="w-8 h-8 rounded-lg flex items-center justify-center"
-                      style={{ backgroundColor: theme.colors.copper[100] }}
-                    >
-                      <feature.icon className="w-4 h-4" style={{ color: theme.colors.copper.DEFAULT }} />
-                    </div>
-                    <span style={{ color: theme.colors.text.primary }}>{feature.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - Form */}
-          <div className="w-full max-w-md mx-auto lg:mx-0">
-            {/* Mobile Header */}
-            <div className="text-center mb-8 lg:hidden">
-              <div 
-                className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6"
-                style={{ backgroundColor: theme.colors.copper.DEFAULT }}
-              >
-                <Sparkles className="w-8 h-8 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold mb-2" style={{ color: theme.colors.text.primary }}>
-                Join LUCIS
-              </h1>
-              <p style={{ color: theme.colors.text.secondary }}>
-                Connect with amazing photographers and videographers
-              </p>
-            </div>
-
-            {/* Form Card */}
-            <div 
-              className="rounded-2xl p-6 sm:p-8"
-              style={{ 
-                backgroundColor: theme.colors.bg.primary, 
-                boxShadow: theme.boxShadow.card,
-                border: `1px solid ${theme.colors.border}`
-              }}
-            >
-              {children}
-            </div>
-
-            {/* Footer */}
-            <div className="text-center mt-6">
-              <p className="text-sm" style={{ color: theme.colors.text.secondary }}>
-                Already have an account?{' '}
-                <Link 
-                  href="/signin" 
-                  className="font-semibold transition-colors"
-                  style={{ color: theme.colors.copper.DEFAULT }}
-                >
-                  Sign in
-                </Link>
-              </p>
+              ))}
             </div>
           </div>
         </div>

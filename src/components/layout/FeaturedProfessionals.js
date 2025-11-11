@@ -1,58 +1,36 @@
 'use client';
 
-import { Star, MapPin, CheckCircle, Camera, Video, Award } from 'lucide-react';
+import { Star, MapPin, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { theme } from '../../lib/theme';
 import { useScrollAnimation } from '../../lib/useScrollAnimation';
 
 const FEATURED_PROS = [
   {
     id: 1,
     name: "Alex Visuals",
-    skills: ["Wedding", "Portrait"],
+    specialty: "Wedding Photography",
     rating: 4.9,
     reviews: 127,
     location: "Lagos",
-    badge: "Top Rated",
-    verified: true,
-    type: "photographer",
     image: "/professional-1.jpg"
   },
   {
     id: 2,
     name: "Lagos Lens Studio",
-    skills: ["Corporate", "Event"],
+    specialty: "Corporate Events",
     rating: 4.8,
     reviews: 89,
     location: "Victoria Island",
-    badge: "Most Booked",
-    verified: true,
-    type: "photographer",
     image: "/professional-2.jpg"
   },
   {
     id: 3,
     name: "Abuja Films",
-    skills: ["Event Video", "Wedding"],
+    specialty: "Cinematic Videos",
     rating: 4.7,
     reviews: 156,
     location: "Abuja",
-    badge: "New Talent",
-    verified: true,
-    type: "videographer",
     image: "/professional-3.jpg"
-  },
-  {
-    id: 4,
-    name: "Portrait Pro",
-    skills: ["Portrait", "Fashion"],
-    rating: 4.9,
-    reviews: 95,
-    location: "Ikeja",
-    badge: "Top Rated",
-    verified: true,
-    type: "photographer",
-    image: "/professional-4.jpg"
   }
 ];
 
@@ -60,143 +38,74 @@ export default function FeaturedProfessionals() {
   const [sectionRef, isVisible] = useScrollAnimation(0.1);
   
   return (
-    <section ref={sectionRef} className="py-24" style={{ backgroundColor: theme.colors.lightBlue[50] }}>
-      <div className="max-w-7xl mx-auto px-6">
-        
-        {/* Header */}
+    <section ref={sectionRef} className="py-24 bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className={`text-center mb-16 transition-all duration-700 ease-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border shadow-sm mb-4" style={{ borderColor: theme.colors.ocean[200] }}>
-            <Award className="w-4 h-4" style={{ color: theme.colors.ocean.DEFAULT }} />
-            <span className="text-sm font-bold uppercase tracking-wide" style={{ color: theme.colors.ocean.DEFAULT }}>
-              Top Professionals
-            </span>
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-            <span style={{ color: theme.colors.text.primary }}>Meet Our</span>{' '}
-            <span 
-              className="bg-clip-text text-transparent"
-              style={{ 
-                backgroundImage: `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
-              Featured Experts
-            </span>
+          <span className="text-xs font-light tracking-[0.2em] uppercase text-gray-600 mb-4 block">
+            Featured Talent
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-gray-900 mb-4">
+            Meet Our Professionals
           </h2>
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: theme.colors.text.secondary }}>
-            Handpicked professionals with proven track records and exceptional reviews
+          <p className="text-lg font-light text-gray-600 max-w-2xl mx-auto">
+            Handpicked experts with exceptional portfolios and proven track records.
           </p>
         </div>
 
-        {/* Professionals Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {FEATURED_PROS.map((pro, index) => {
-            const IconComponent = pro.type === 'photographer' ? Camera : Video;
-            
-            return (
-              <div key={pro.id} className={`group transition-all duration-700 ease-out ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`} style={{ transitionDelay: `${index * 150}ms` }}>
-                
-                <div className="bg-white rounded-2xl p-6 shadow-md border transition-all duration-300 hover:shadow-2xl hover:-translate-y-2" style={{ borderColor: theme.colors.lightBlue[200] }}>
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {FEATURED_PROS.map((pro, index) => (
+            <Link
+              key={pro.id}
+              href="/search"
+              className={`group transition-all duration-700 ease-out ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
+              <div className="relative overflow-hidden rounded-3xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div className="relative h-80">
+                  <img
+                    src={pro.image}
+                    alt={pro.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   
-                  {/* Profile Photo & Badge */}
-                  <div className="relative mb-6">
-                    <div className="w-24 h-24 rounded-2xl mx-auto overflow-hidden shadow-lg">
-                      <img 
-                        src={pro.image} 
-                        alt={pro.name}
-                        className="w-full h-full object-cover"
-                      />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                      <span className="text-sm font-light text-white">
+                        {pro.rating} ({pro.reviews})
+                      </span>
                     </div>
-                    
-                    {/* Verified Badge */}
-                    {pro.verified && (
-                      <div className="absolute top-0 right-8 w-7 h-7 rounded-full flex items-center justify-center shadow-md" style={{ backgroundColor: theme.colors.coral.DEFAULT }}>
-                        <CheckCircle className="w-5 h-5 text-white" />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Badge */}
-                  <div className="text-center mb-4">
-                    <span className="inline-block px-3 py-1 text-xs font-bold rounded-full" style={{ 
-                      backgroundColor: pro.badge === 'Top Rated' ? theme.colors.coral[100] : 
-                                     pro.badge === 'Most Booked' ? '#D1FAE5' : '#EDE9FE',
-                      color: pro.badge === 'Top Rated' ? theme.colors.coral.DEFAULT : 
-                             pro.badge === 'Most Booked' ? '#059669' : '#7C3AED'
-                    }}>
-                      {pro.badge}
-                    </span>
-                  </div>
-
-                  {/* Name & Skills */}
-                  <div className="text-center mb-4">
-                    <h3 className="text-xl font-bold mb-3" style={{ color: theme.colors.text.primary }}>
+                    <h3 className="text-2xl font-light text-white mb-1">
                       {pro.name}
                     </h3>
-                    <div className="flex flex-wrap justify-center gap-2">
-                      {pro.skills.map((skill, skillIndex) => (
-                        <span key={skillIndex} className="px-3 py-1 text-xs font-medium rounded-lg" style={{ 
-                          backgroundColor: theme.colors.lightBlue[100], 
-                          color: theme.colors.ocean.DEFAULT
-                        }}>
-                          {skill}
-                        </span>
-                      ))}
+                    <p className="text-sm font-light text-white/80 mb-3">
+                      {pro.specialty}
+                    </p>
+                    <div className="flex items-center gap-2 text-sm font-light text-white/70">
+                      <MapPin className="w-4 h-4" />
+                      <span>{pro.location}</span>
                     </div>
                   </div>
-
-                  {/* Rating & Location */}
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center justify-center gap-2 bg-yellow-50 rounded-lg py-2">
-                      <Star className="w-5 h-5 text-yellow-500 fill-current" />
-                      <span className="font-bold text-lg" style={{ color: theme.colors.text.primary }}>
-                        {pro.rating}
-                      </span>
-                      <span className="text-sm" style={{ color: theme.colors.text.muted }}>
-                        ({pro.reviews} reviews)
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-center gap-2">
-                      <MapPin className="w-4 h-4" style={{ color: theme.colors.ocean.DEFAULT }} />
-                      <span className="text-sm font-medium" style={{ color: theme.colors.text.secondary }}>
-                        {pro.location}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* View Profile Button */}
-                  <button 
-                    className="w-full py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-md"
-                    style={{ 
-                      background: `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`,
-                      color: 'white'
-                    }}
-                  >
-                    View Profile
-                  </button>
                 </div>
               </div>
-            );
-          })}
+            </Link>
+          ))}
         </div>
 
-        {/* CTA */}
         <div className={`text-center transition-all duration-700 ease-out delay-600 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <Link
             href="/search"
-            className="inline-block px-10 py-5 rounded-2xl font-bold transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl"
-            style={{ 
-              background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
-              color: 'white'
-            }}
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-medium rounded-full transition-all duration-300 hover:shadow-2xl hover:scale-105"
           >
-            Explore All Professionals →
+            <span>View All Professionals</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

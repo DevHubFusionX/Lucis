@@ -39,125 +39,67 @@ export default function Navbar () {
       <nav
         className={`fixed top-0 left-0 right-0 transition-all duration-500 ${
           isScrolled
-            ? 'bg-white/80 backdrop-blur-xl shadow-lg border-b'
-            : 'bg-white/95 backdrop-blur-sm shadow-sm'
+            ? 'bg-white/90 backdrop-blur-xl shadow-sm'
+            : 'bg-white/70 backdrop-blur-md'
         }`}
         style={{
-          borderBottomColor: isScrolled
-            ? theme.colors.lightBlue[200]
-            : 'transparent',
           zIndex: 50
         }}
       >
-        <div className='max-w-7xl mx-auto px-6 lg:px-8'>
-          <div className='flex justify-between items-center h-20'>
+        <div className='max-w-7xl mx-auto px-6 lg:px-12'>
+          <div className='flex justify-between items-center h-16'>
             {/* Premium Logo */}
             <Link
               href='/'
-              className='flex items-center gap-2 group'
+              className='flex items-center gap-3 group'
               onClick={closeMenu}
             >
-              <div className='relative'>
-                <div className='w-15 h-10  flex items-center justify-center transition-all duration-300 '>
-                  <span>
-                    {logo.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image}
-                        alt='Photography Background'
-                      />
-                    ))}
-                  </span>
-                </div>
-           
-              </div>
-              <div className='flex flex-col'>
-               
-                <span
-                  className='text-3xl font-semibold tracking-wider uppercase mt-0.5'
-                  style={{ color: theme.colors.ocean.DEFAULT }}
-                >
-                  LUCIS
-                </span>
-              </div>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="1.5" className="text-gray-900"/>
+                <circle cx="16" cy="16" r="6" fill="currentColor" className="text-gray-900"/>
+                <circle cx="16" cy="16" r="3" fill="white"/>
+              </svg>
+              <span className='text-2xl font-light tracking-[0.2em] uppercase text-gray-900'>
+                LUCIS
+              </span>
             </Link>
 
-            {/* Premium Desktop Navigation */}
-            <div className='hidden lg:flex items-center gap-1'>
+            <div className='hidden lg:flex items-center gap-8'>
               {NAV_ITEMS.map(item => {
                 const isActive = pathname === item.href
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`relative px-5 py-2.5 text-sm font-semibold transition-all duration-300 rounded-xl group ${
-                      isActive ? 'text-white' : ''
+                    className={`relative text-sm font-light tracking-wide transition-all duration-300 group ${
+                      isActive ? 'text-gray-900' : 'text-gray-600 hover:text-gray-900'
                     }`}
-                    style={{
-                      color: isActive ? 'white' : theme.colors.text.secondary,
-                      backgroundColor: isActive
-                        ? theme.colors.ocean.DEFAULT
-                        : 'transparent'
-                    }}
                   >
-                    <span className='relative z-10'>{item.label}</span>
-                    {!isActive && (
-                      <div
-                        className='absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300'
-                        style={{ backgroundColor: theme.colors.lightBlue[100] }}
-                      />
-                    )}
-                    {isActive && (
-                      <div
-                        className='absolute inset-0 rounded-xl animate-pulse opacity-20'
-                        style={{ backgroundColor: 'white' }}
-                      />
-                    )}
+                    {item.label}
+                    <span className={`absolute -bottom-1 left-0 h-[1px] bg-gray-900 transition-all duration-300 ${
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`} />
                   </Link>
                 )
               })}
             </div>
 
-            {/* Premium Action Buttons */}
-            <div className='hidden lg:flex items-center gap-3'>
+            <div className='hidden lg:flex items-center gap-4'>
               <Link href='/signin'>
-                <button
-                  className='px-6 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105'
-                  style={{
-                    color: theme.colors.text.primary,
-                    backgroundColor: 'transparent'
-                  }}
-                >
+                <button className='px-5 py-2 text-sm font-light text-gray-700 hover:text-gray-900 transition-colors duration-300'>
                   Sign In
                 </button>
               </Link>
               <Link href='/signup'>
-                <button
-                  className='relative px-6 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg overflow-hidden group'
-                  style={{
-                    background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
-                    color: 'white'
-                  }}
-                >
-                  <span className='relative z-10 flex items-center gap-2'>
-                    Get Started
-                    <Sparkles className='w-4 h-4' />
-                  </span>
-                  <div className='absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300' />
+                <button className='px-6 py-2.5 text-sm font-medium bg-gray-900 text-white rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105'>
+                  Get Started
                 </button>
               </Link>
             </div>
 
-            {/* Premium Mobile menu button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className='lg:hidden p-3 rounded-xl transition-all duration-300 hover:scale-105'
-              style={{
-                backgroundColor: isOpen
-                  ? theme.colors.ocean.DEFAULT
-                  : theme.colors.lightBlue[100],
-                color: isOpen ? 'white' : theme.colors.text.primary
-              }}
+              className='lg:hidden p-2 text-gray-900 transition-all duration-300'
               aria-label='Toggle menu'
             >
               <svg
@@ -165,20 +107,12 @@ export default function Navbar () {
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
-                strokeWidth={2.5}
+                strokeWidth={2}
               >
                 {isOpen ? (
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M6 18L18 6M6 6l12 12'
-                  />
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
                 ) : (
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M4 6h16M4 12h16M4 18h16'
-                  />
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M4 6h16M4 12h16M4 18h16' />
                 )}
               </svg>
             </button>
@@ -186,90 +120,36 @@ export default function Navbar () {
         </div>
       </nav>
 
-      {/* Premium Mobile Sidebar */}
       {isOpen && (
         <>
-          {/* Premium Backdrop */}
           <div
-            className='lg:hidden fixed inset-0 bg-black/60 backdrop-blur-md z-10'
-            style={{ animation: 'fadeIn 0.3s ease-out', zIndex: 9998 }}
+            className='lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm'
+            style={{ zIndex: 9998 }}
             onClick={closeMenu}
           />
-
-          {/* Premium Sidebar */}
           <div
-            className='lg:hidden fixed top-0 left-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl overflow-y-auto'
-            style={{ animation: 'slideInLeft 0.3s ease-out', zIndex: 9999 }}
+            className='lg:hidden fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl overflow-y-auto'
+            style={{ zIndex: 9999 }}
           >
-            <div className='min-h-full flex flex-col p-6'>
-              {/* Premium Header */}
-              <div className='flex justify-between items-center mb-10'>
-                <div className='flex items-center gap-3'>
-                  <div
-                    className='w-10 h-10 rounded-xl flex items-center justify-center shadow-md'
-                    style={{
-                      background: `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`
-                    }}
-                  >
-                    <span className='text-white font-bold text-lg'>
-                      {BRAND.logo}
-                    </span>
-                  </div>
-                  <div>
-                    <span
-                      className='font-bold text-xl block'
-                      style={{ color: theme.colors.text.primary }}
-                    >
-                      {BRAND.name}
-                    </span>
-                    <span
-                      className='text-xs font-semibold'
-                      style={{ color: theme.colors.ocean.DEFAULT }}
-                    >
-                      PREMIUM
-                    </span>
-                  </div>
-                </div>
-                <button
-                  onClick={closeMenu}
-                  className='p-2.5 rounded-xl transition-all duration-300 hover:scale-105'
-                  style={{
-                    backgroundColor: theme.colors.lightBlue[100],
-                    color: theme.colors.text.primary
-                  }}
-                >
-                  <svg
-                    className='h-6 w-6'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                    strokeWidth={2.5}
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M6 18L18 6M6 6l12 12'
-                    />
+            <div className='flex flex-col p-6'>
+              <div className='flex justify-between items-center mb-8'>
+                <span className='text-xl font-light tracking-[0.2em] uppercase text-gray-900'>LUCIS</span>
+                <button onClick={closeMenu} className='p-2 text-gray-900'>
+                  <svg className='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor' strokeWidth={2}>
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
                   </svg>
                 </button>
               </div>
-
-              {/* Premium Navigation Links */}
-              <div className='flex-1 space-y-2 mb-8'>
-                {NAV_ITEMS.map((item, index) => {
+              <div className='space-y-1 mb-8'>
+                {NAV_ITEMS.map(item => {
                   const isActive = pathname === item.href
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className='block px-5 py-4 text-base font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-md'
-                      style={{
-                        color: isActive ? 'white' : theme.colors.text.primary,
-                        background: isActive
-                          ? `linear-gradient(135deg, ${theme.colors.ocean.DEFAULT} 0%, ${theme.colors.turquoise.DEFAULT} 100%)`
-                          : theme.colors.lightBlue[50],
-                        animationDelay: `${index * 50}ms`
-                      }}
+                      className={`block px-4 py-3 text-base font-light rounded-lg transition-colors ${
+                        isActive ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'
+                      }`}
                       onClick={closeMenu}
                     >
                       {item.label}
@@ -277,33 +157,15 @@ export default function Navbar () {
                   )
                 })}
               </div>
-
-              {/* Premium Action Buttons */}
-              <div
-                className='space-y-3 pt-6 border-t'
-                style={{ borderColor: theme.colors.lightBlue[200] }}
-              >
-                <Link href='/signin' className='block' onClick={closeMenu}>
-                  <button
-                    className='w-full py-4 text-base font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02]'
-                    style={{
-                      backgroundColor: theme.colors.lightBlue[100],
-                      color: theme.colors.text.primary
-                    }}
-                  >
+              <div className='space-y-3 pt-6 border-t border-gray-200'>
+                <Link href='/signin' onClick={closeMenu}>
+                  <button className='w-full py-3 text-base font-light text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors'>
                     Sign In
                   </button>
                 </Link>
-                <Link href='/signup' className='block' onClick={closeMenu}>
-                  <button
-                    className='w-full py-4 text-base font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl flex items-center justify-center gap-2'
-                    style={{
-                      background: `linear-gradient(135deg, ${theme.colors.coral.DEFAULT} 0%, ${theme.colors.coral[600]} 100%)`,
-                      color: 'white'
-                    }}
-                  >
+                <Link href='/signup' onClick={closeMenu}>
+                  <button className='w-full py-3 text-base font-medium bg-gray-900 text-white rounded-full hover:shadow-lg transition-all'>
                     Get Started
-                    <Sparkles className='w-4 h-4' />
                   </button>
                 </Link>
               </div>
