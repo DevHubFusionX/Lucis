@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Play, ChevronDown } from 'lucide-react';
 
 // If you have a theme file, replace this with your token (e.g., tokens.colors.accent)
@@ -9,12 +10,11 @@ const ACCENT = '#C4A35A';
 
 function useIsVisible(threshold = 0.1) {
   const ref = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(typeof IntersectionObserver === 'undefined');
 
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === 'undefined') {
-      setIsVisible(true);
       return;
     }
     const obs = new IntersectionObserver(
@@ -59,7 +59,7 @@ export default function HeroSection() {
     >
       {/* Diagonal Background Split */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-white" />
+        <div className="absolute inset-0 bg-linear-to-br from-gray-100 to-white" />
         <div 
           className="absolute inset-0 bg-gray-900 hidden lg:block" 
           style={{ clipPath: 'polygon(60% 0, 100% 0, 100% 100%, 40% 100%)' }}
@@ -141,11 +141,12 @@ export default function HeroSection() {
               }`}
             >
               {heroImages.map((img, idx) => (
-                <img
+                <Image
                   key={img}
                   src={img}
                   alt="Professional photography"
-                  className={`w-full h-full object-cover absolute inset-0 transition-all duration-1000 ${
+                  fill
+                  className={`object-cover transition-all duration-1000 ${
                     idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
                   }`}
                 />
@@ -154,14 +155,15 @@ export default function HeroSection() {
 
             {/* Small Top Left */}
             <div
-              className={`absolute top-8 sm:top-12 left-0 sm:left-4 lg:left-0 w-[120px] h-[160px] sm:w-[160px] sm:h-[220px] lg:w-[220px] lg:h-[300px] rounded-xl lg:rounded-2xl overflow-hidden shadow-xl transition-all duration-1000 ease-out delay-500 ${
+              className={`absolute top-8 sm:top-12 left-0 sm:left-4 lg:left-0 w-[120px] h-[160px] sm:w-40 sm:h-[220px] lg:w-[220px] lg:h-[300px] rounded-xl lg:rounded-2xl overflow-hidden shadow-xl transition-all duration-1000 ease-out delay-500 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-12'
               }`}
             >
-              <img
+              <Image
                 src={heroImages[(currentIndex + 1) % heroImages.length]}
                 alt="Photography work"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
 
@@ -171,10 +173,11 @@ export default function HeroSection() {
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
               }`}
             >
-              <img
+              <Image
                 src={heroImages[(currentIndex + 2) % heroImages.length]}
                 alt="Photography work"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
 

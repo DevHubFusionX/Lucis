@@ -117,12 +117,12 @@ export default function ProfessionalMultiStepSignUp() {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
-          await submitForm(latitude.toString(), longitude.toString());
+          await submitForm(latitude, longitude);
         },
-        async () => await submitForm('0', '0')
+        async () => await submitForm(0, 0)
       );
     } else {
-      await submitForm('0', '0');
+      await submitForm(0, 0);
     }
   };
 
@@ -134,8 +134,8 @@ export default function ProfessionalMultiStepSignUp() {
       apiFormData.append('phone', formData.phone);
       apiFormData.append('firstName', formData.firstName);
       apiFormData.append('lastName', formData.lastName);
-      apiFormData.append('latitude', parseFloat(lat));
-      apiFormData.append('longitude', parseFloat(lng));
+      apiFormData.append('lat', lat.toString());
+      apiFormData.append('lng', lng.toString());
       
       if (userType === 'professional') {
         apiFormData.append('bio', formData.bio);
