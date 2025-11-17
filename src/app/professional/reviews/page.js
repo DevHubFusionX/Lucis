@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import StudioNavbar from '../../../components/studio/StudioNavbar';
 import StudioSidebar from '../../../components/studio/StudioSidebar';
-import StudioProfileInterface from '../../../components/studio/StudioProfileInterface';
+import StudioReviews from '../../../components/studio/StudioReviews';
 import { theme } from '../../../lib/theme';
 
-export default function StudioProfilePage() {
+export default function ProfessionalReviewsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ export default function StudioProfilePage() {
           onClose={() => setSidebarOpen(false)} 
         />
         <main className="flex-1 lg:ml-64 p-4 lg:p-8">
-          <StudioProfileInterface />
+          <StudioReviews />
         </main>
       </div>
     </div>

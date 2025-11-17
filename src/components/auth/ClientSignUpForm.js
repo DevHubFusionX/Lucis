@@ -2,32 +2,25 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, UserCheck, Key, Camera, Briefcase } from 'lucide-react';
+import { User, Key, Upload } from 'lucide-react';
 import { theme } from '../../lib/theme';
 import { userAuthService } from '../../lib/auth/userAuth';
-import { professionalAuthService } from '../../lib/auth/professionalAuth';
 import { useAuth } from './AuthProvider';
-import UserTypeSelector from './UserTypeSelector';
 import PersonalInfoFields from './PersonalInfoFields';
 import AccountFields from './AccountFields';
 import ProfileUpload from './ProfileUpload';
-import ProfessionalFields from './ProfessionalFields';
-import MediaUpload from './MediaUpload';
+import SocialLogin from './SocialLogin';
 
 const STEPS = [
-  { id: 1, title: 'Account Type', desc: 'Choose your account type', icon: 'User' },
-  { id: 2, title: 'Personal Details', desc: 'Your basic information', icon: 'UserCheck' },
-  { id: 3, title: 'Account Setup', desc: 'Login credentials', icon: 'Key' },
-  { id: 4, title: 'Profile Photo', desc: 'Add your picture', icon: 'Camera' },
-  { id: 5, title: 'Professional Setup', desc: 'Skills & portfolio', icon: 'Briefcase' }
+  { id: 1, title: 'Personal Details', desc: 'Your basic information', icon: User },
+  { id: 2, title: 'Account Setup', desc: 'Login credentials', icon: Key },
+  { id: 3, title: 'Profile Photo', desc: 'Add your picture (optional)', icon: Upload }
 ];
 
-export default function ProfessionalMultiStepSignUp() {
+export default function ClientSignUpForm() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [userType, setUserType] = useState('user');
   const [formData, setFormData] = useState({
-    firstName: '', lastName: '', email: '', phone: '', password: '',
-    photo: null, bio: '', baseCity: '', skills: [], mediaFiles: []
+    firstName: '', lastName: '', email: '', phone: '', password: '', photo: null
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +37,6 @@ export default function ProfessionalMultiStepSignUp() {
       case 'email': return !/\S+@\S+\.\S+/.test(value) ? 'Please enter a valid email' : '';
       case 'phone': return value.length < 10 ? 'Please enter a valid phone number' : '';
       case 'password': return value.length < 6 ? 'Password must be at least 6 characters' : '';
-      case 'baseCity': return userType === 'professional' && value.length < 2 ? 'Base city is required' : '';
       default: return '';
     }
   };
@@ -78,9 +70,8 @@ export default function ProfessionalMultiStepSignUp() {
 
   const validateStep = (step) => {
     const stepFields = {
-      2: ['firstName', 'lastName', 'phone'],
-      3: ['email', 'password'],
-      5: userType === 'professional' ? ['baseCity'] : []
+      1: ['firstName', 'lastName', 'phone'],
+      2: ['email', 'password']
     };
     
     const fields = stepFields[step] || [];
@@ -99,8 +90,7 @@ export default function ProfessionalMultiStepSignUp() {
 
   const nextStep = () => {
     if (validateStep(currentStep)) {
-      const maxStep = userType === 'professional' ? 5 : 4;
-      if (currentStep < maxStep) setCurrentStep(currentStep + 1);
+      if (currentStep < 3) setCurrentStep(currentStep + 1);
     }
   };
 
@@ -109,7 +99,7 @@ export default function ProfessionalMultiStepSignUp() {
   };
 
   const handleSubmit = async () => {
-    if (!validateStep(currentStep)) return;
+    if (currentStep < 3 && !validateStep(currentStep)) return;
     
     setIsLoading(true);
     setApiError('');
@@ -135,32 +125,18 @@ export default function ProfessionalMultiStepSignUp() {
       apiFormData.append('phone', formData.phone);
       apiFormData.append('firstName', formData.firstName);
       apiFormData.append('lastName', formData.lastName);
+      apiFormData.append('lat', lat.toString());
+      apiFormData.append('lng', lng.toString());
       
-      if (userType === 'professional') {
-        apiFormData.append('latitude', lat.toString());
-        apiFormData.append('longitude', lng.toString());
-        apiFormData.append('bio', formData.bio || '');
-        apiFormData.append('baseCity', formData.baseCity);
-        formData.skills.forEach(skill => apiFormData.append('skills[]', skill));
-        formData.mediaFiles.forEach(file => apiFormData.append('media', file));
-        if (formData.photo) {
-          apiFormData.append('media', formData.photo);
-        }
-      } else {
-        apiFormData.append('lat', lat.toString());
-        apiFormData.append('lng', lng.toString());
-        if (formData.photo) {
-          apiFormData.append('photo', formData.photo);
-        }
+      if (formData.photo) {
+        apiFormData.append('photo', formData.photo);
       }
       
-      const authService = userType === 'professional' ? professionalAuthService : userAuthService;
-      const response = await authService.register(apiFormData);
+      const response = await userAuthService.register(apiFormData);
       
       if (response.error === false && response.data) {
         login(response.data.token, response.data.user);
-        const redirectPath = userType === 'professional' ? '/studio' : '/dashboard';
-        router.push(redirectPath);
+        router.push('/dashboard');
       } else {
         setApiError(response.message || 'Registration failed');
       }
@@ -171,13 +147,15 @@ export default function ProfessionalMultiStepSignUp() {
     }
   };
 
-  const maxStep = userType === 'professional' ? 5 : 4;
-  const isLastStep = currentStep === maxStep;
+  const isLastStep = currentStep === 3;
 
   return (
     <div className="w-full">
       {/* Header */}
       <div className="text-center mb-6">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <span className="text-sm font-semibold text-blue-600 uppercase tracking-wide">Client</span>
+        </div>
         <h2 className="text-xl font-semibold mb-1" style={{ color: theme.colors.text.primary }}>
           {STEPS[currentStep - 1]?.title}
         </h2>
@@ -190,14 +168,14 @@ export default function ProfessionalMultiStepSignUp() {
       <div className="mb-6">
         <div className="flex justify-between text-xs mb-2" style={{ color: theme.colors.text.muted }}>
           <span>Step {currentStep}</span>
-          <span>{maxStep} steps</span>
+          <span>3 steps</span>
         </div>
         <div className="w-full rounded-full h-2" style={{ backgroundColor: theme.colors.gray[200] }}>
           <div 
             className="h-2 rounded-full transition-all duration-300"
             style={{ 
-              width: `${(currentStep / maxStep) * 100}%`,
-              backgroundColor: theme.colors.copper.DEFAULT
+              width: `${(currentStep / 3) * 100}%`,
+              backgroundColor: '#2563eb'
             }}
           />
         </div>
@@ -206,12 +184,6 @@ export default function ProfessionalMultiStepSignUp() {
       {/* Step Content */}
       <div className="min-h-[300px]">
         {currentStep === 1 && (
-          <div className="space-y-6">
-            <UserTypeSelector userType={userType} setUserType={setUserType} />
-          </div>
-        )}
-        
-        {currentStep === 2 && (
           <div className="space-y-4">
             <PersonalInfoFields 
               formData={formData} errors={errors} touched={touched}
@@ -220,7 +192,7 @@ export default function ProfessionalMultiStepSignUp() {
           </div>
         )}
         
-        {currentStep === 3 && (
+        {currentStep === 2 && (
           <div className="space-y-4">
             <AccountFields 
               formData={formData} errors={errors} touched={touched}
@@ -230,20 +202,12 @@ export default function ProfessionalMultiStepSignUp() {
           </div>
         )}
         
-        {currentStep === 4 && (
+        {currentStep === 3 && (
           <div>
-            <ProfileUpload onFileChange={(file) => setFormData(prev => ({ ...prev, photo: file }))} />
-          </div>
-        )}
-        
-        {currentStep === 5 && userType === 'professional' && (
-          <div className="space-y-6">
-            <ProfessionalFields 
-              formData={formData} errors={errors} touched={touched}
-              onChange={handleChange} onBlur={handleBlur} getFieldStyles={getFieldStyles}
-              onSkillsChange={(skills) => setFormData(prev => ({ ...prev, skills }))}
+            <ProfileUpload 
+              onFileChange={(file) => setFormData(prev => ({ ...prev, photo: file }))}
+              optional={true}
             />
-            <MediaUpload onMediaChange={(mediaFiles) => setFormData(prev => ({ ...prev, mediaFiles }))} />
           </div>
         )}
 
@@ -276,10 +240,15 @@ export default function ProfessionalMultiStepSignUp() {
           onClick={isLastStep ? handleSubmit : nextStep}
           disabled={isLoading}
           className="flex-1 py-3 px-4 text-white rounded-lg transition-all font-medium disabled:opacity-50"
-          style={{ backgroundColor: theme.colors.copper.DEFAULT }}
+          style={{ backgroundColor: '#2563eb' }}
         >
           {isLoading ? 'Creating...' : isLastStep ? 'Create Account' : 'Continue'}
         </button>
+      </div>
+
+      {/* Social Login */}
+      <div className="mt-8">
+        <SocialLogin />
       </div>
     </div>
   );

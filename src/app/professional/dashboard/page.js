@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import StudioNavbar from '../../../components/studio/StudioNavbar';
 import StudioSidebar from '../../../components/studio/StudioSidebar';
-import StudioBookings from '../../../components/studio/StudioBookings';
+import StudioDashboard from '../../../components/studio/StudioDashboard';
 import { theme } from '../../../lib/theme';
 
-export default function StudioBookingsPage() {
+export default function ProfessionalDashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -17,8 +17,8 @@ export default function StudioBookingsPage() {
           isOpen={sidebarOpen} 
           onClose={() => setSidebarOpen(false)} 
         />
-        <main className="flex-1 lg:ml-64 p-4 lg:p-8">
-          <StudioBookings />
+        <main className="flex-1 lg:ml-64 p-4 lg:p-6">
+          <StudioDashboard />
         </main>
       </div>
     </div>

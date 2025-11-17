@@ -3,15 +3,15 @@ export const routes = {
   // Public routes
   home: '/',
   landing: '/landing',
-  signin: '/signin',
-  signup: '/signup',
+  signin: '/user/signin',
+  signup: '/user/signup',
   
-  // Dashboard routes
-  dashboard: '/dashboard',
+  // User Dashboard routes
+  dashboard: '/user/dashboard',
   
   // Booking routes
   booking: (id) => `/booking/${id}`,
-  bookings: '/bookings',
+  bookings: '/user/bookings',
   newBooking: '/booking/new',
   
   // Messaging routes
@@ -26,22 +26,34 @@ export const routes = {
   search: '/search',
   gallery: '/gallery',
   
-  // Notification routes
-  notifications: '/notifications',
+  // User Notification routes
+  notifications: '/user/notifications',
   
-  // Profile routes
-  profile: '/profile',
+  // User Profile routes
+  profile: '/user/profile',
   settings: '/settings',
   
-  // Studio routes (for photographers/videographers)
-  studio: '/studio',
-  studioBookings: '/studio/bookings',
-  studioGallery: '/studio/gallery',
-  studioAvailability: '/studio/availability',
-  studioReviews: '/studio/reviews',
-  studioNotifications: '/studio/notifications',
-  studioProfile: '/studio/profile',
-  studioPayments: '/studio/payments',
+  // Professional routes (for photographers/videographers)
+  professionalSignin: '/professional/signin',
+  professionalSignup: '/professional/signup',
+  professionalDashboard: '/professional/dashboard',
+  professionalBookings: '/professional/bookings',
+  professionalGallery: '/professional/gallery',
+  professionalAvailability: '/professional/availability',
+  professionalReviews: '/professional/reviews',
+  professionalNotifications: '/professional/notifications',
+  professionalProfile: '/professional/profile',
+  professionalPayments: '/professional/payments',
+  
+  // Legacy studio routes (redirects)
+  studio: '/professional/dashboard',
+  studioBookings: '/professional/bookings',
+  studioGallery: '/professional/gallery',
+  studioAvailability: '/professional/availability',
+  studioReviews: '/professional/reviews',
+  studioNotifications: '/professional/notifications',
+  studioProfile: '/professional/profile',
+  studioPayments: '/professional/payments',
   
   // Legal routes
   terms: '/terms',
@@ -95,8 +107,10 @@ export const getUserDashboard = (userType) => {
   switch (userType) {
     case 'photographer':
     case 'videographer':
-      return routes.studio;
+    case 'professional':
+      return routes.professionalDashboard;
     case 'client':
+    case 'user':
     default:
       return routes.dashboard;
   }

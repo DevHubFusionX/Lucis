@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import StudioNavbar from '../../../components/studio/StudioNavbar';
 import StudioSidebar from '../../../components/studio/StudioSidebar';
-import StudioNotifications from '../../../components/studio/StudioNotifications';
+import StudioGallery from '../../../components/studio/StudioGallery';
 import { theme } from '../../../lib/theme';
 
-export default function StudioNotificationsPage() {
+export default function ProfessionalGalleryPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ export default function StudioNotificationsPage() {
           onClose={() => setSidebarOpen(false)} 
         />
         <main className="flex-1 lg:ml-64 p-4 lg:p-8">
-          <StudioNotifications />
+          <StudioGallery />
         </main>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Upload, X } from 'lucide-react';
 import { theme } from '../../lib/theme';
 
-export default function ProfileUpload({ onFileChange }) {
+export default function ProfileUpload({ onFileChange, optional = false }) {
   const [preview, setPreview] = useState(null);
 
   const handleFileChange = (e) => {
@@ -25,7 +25,7 @@ export default function ProfileUpload({ onFileChange }) {
   return (
     <div>
       <label className="block text-sm font-medium mb-2" style={{ color: theme.colors.text.primary }}>
-        Profile Photo (Optional)
+        Profile Photo {optional ? '(Optional)' : ''}
       </label>
       
       {!preview ? (

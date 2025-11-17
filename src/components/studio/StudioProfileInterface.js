@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { theme } from '../../lib/theme';
-import { authStorage } from '../../lib/auth';
-import { apiService } from '../../lib/api';
+import { professionalAuthService } from '../../lib/auth/professionalAuth';
 import StudioProfileHeader from './StudioProfileHeader';
 import StudioStatsGrid from './StudioStatsGrid';
 import StudioTabs from './StudioTabs';
@@ -32,9 +31,9 @@ export default function StudioProfileInterface() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await apiService.getProfessionalProfile();
+        const response = await professionalAuthService.getProfile();
         if (response.error === false && response.data) {
-          const userData = response.data;
+          const userData = response.data.user || response.data;
           setUser({
             ...userData,
             name: `${userData.firstName} ${userData.lastName}`,
@@ -46,7 +45,7 @@ export default function StudioProfileInterface() {
           });
         }
       } catch (error) {
-        const storedUser = authStorage.getUser();
+        const storedUser = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('lucis_user') || 'null') : null;
         if (storedUser) {
           setUser({
             ...storedUser,

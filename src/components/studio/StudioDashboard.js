@@ -5,8 +5,7 @@ import { Calendar, DollarSign, Star, Clock, Users, Camera, MessageCircle, ArrowU
 import Link from 'next/link';
 import { routes } from '../../lib/routes';
 import { theme } from '../../lib/theme';
-import { authStorage } from '../../lib/auth';
-import { apiService } from '../../lib/api';
+import { professionalAuthService } from '../../lib/auth/professionalAuth';
 
 export default function StudioDashboard() {
   const [user, setUser] = useState(null);
@@ -15,12 +14,12 @@ export default function StudioDashboard() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await apiService.getProfessionalProfile();
+        const response = await professionalAuthService.getProfile();
         if (response.error === false && response.data) {
-          setUser(response.data);
+          setUser(response.data.user || response.data);
         }
       } catch (error) {
-        const storedUser = authStorage.getUser();
+        const storedUser = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('lucis_user') || 'null') : null;
         if (storedUser) {
           setUser(storedUser);
         }

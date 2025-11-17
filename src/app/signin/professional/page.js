@@ -2,11 +2,11 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function SignInPage() {
+export default function ProfessionalSignInPage() {
   const router = useRouter();
   
   useEffect(() => {
-    router.replace('/user/signin');
+    router.replace('/professional/signin');
   }, [router]);
   
   return null;

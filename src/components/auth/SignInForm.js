@@ -5,16 +5,17 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Eye, EyeOff, Check, X } from 'lucide-react';
 import { theme } from '../../lib/theme';
-import { apiService } from '../../lib/api';
+import { userAuthService } from '../../lib/auth/userAuth';
+import { professionalAuthService } from '../../lib/auth/professionalAuth';
 import { useAuth } from './AuthProvider';
 import UserTypeSelector from './UserTypeSelector';
 
-export default function SignInForm() {
+export default function SignInForm(props = {}) {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  const [userType, setUserType] = useState('user');
+  const [userType, setUserType] = useState(props.userType || 'user');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -72,7 +73,8 @@ export default function SignInForm() {
     }
     
     try {
-      const response = await apiService.login(formData.email, formData.password, userType);
+      const authService = userType === 'professional' ? professionalAuthService : userAuthService;
+      const response = await authService.login(formData.email, formData.password);
       
       if (response.error === false && response.data) {
         // Use AuthProvider login method
@@ -123,7 +125,7 @@ export default function SignInForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <UserTypeSelector userType={userType} setUserType={setUserType} />
+      {!props.userType && <UserTypeSelector userType={userType} setUserType={setUserType} />}
       {/* Email Field */}
       <div>
         <div className="relative">
