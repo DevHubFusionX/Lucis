@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { theme } from '../../lib/theme';
 import { authStorage } from '../../lib/auth';
-import { apiService } from '../../lib/api';
+import { userAuthService } from '../../lib/auth';
 import ProfileHeader from './ProfileHeader';
 import ProfileTabs from './ProfileTabs';
 
@@ -29,28 +29,23 @@ export default function ProfileInterface() {
         const isStudioRoute = window.location.pathname.includes('/studio');
         
         let response;
-        if (isStudioRoute) {
-          response = await apiService.getProfessionalProfile();
-        } else {
-          // For regular profile, try professional first, then fallback to stored data
-          try {
-            response = await apiService.getProfessionalProfile();
-          } catch {
-            // If professional profile fails, use stored data
-            const storedUser = authStorage.getUser();
-            if (storedUser) {
-              setUser({
-                ...storedUser,
-                name: `${storedUser.firstName} ${storedUser.lastName}`,
-                avatar: storedUser.profilePicture?.url || null,
-                joinDate: new Date(storedUser.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
-                bio: "Welcome to LUCIS! Update your profile to tell others about yourself."
-              });
-              setLoading(false);
-              return;
-            }
-            throw new Error('No user data available');
+        try {
+          response = await userAuthService.getProfile();
+        } catch {
+          // If profile fails, use stored data
+          const storedUser = authStorage.getUser();
+          if (storedUser) {
+            setUser({
+              ...storedUser,
+              name: `${storedUser.firstName} ${storedUser.lastName}`,
+              avatar: storedUser.profilePicture?.url || null,
+              joinDate: new Date(storedUser.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+              bio: "Welcome to LUCIS! Update your profile to tell others about yourself."
+            });
+            setLoading(false);
+            return;
           }
+          throw new Error('No user data available');
         }
         
         if (response.error === false && response.data) {

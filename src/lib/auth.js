@@ -1,3 +1,6 @@
+export { userAuthService } from './auth/userAuth';
+export { professionalAuthService } from './auth/professionalAuth';
+
 export const authStorage = {
   setToken: (token) => {
     if (typeof window !== 'undefined') {
