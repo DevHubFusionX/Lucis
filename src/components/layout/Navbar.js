@@ -109,7 +109,7 @@ export default function Navbar () {
                 <div className='absolute top-full left-0 mt-2 w-52 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 animate-in fade-in slide-in-from-top-2'
                      style={{ border: `1px solid ${theme.colors.border}` }}>
                   <div className='p-2'>
-                    <Link href='/signin' className='flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all duration-200'>
+                    <Link href='/user/signin' className='flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all duration-200'>
                       <div className='w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center'>
                         <User className='w-4 h-4 text-blue-600' />
                       </div>
@@ -118,7 +118,7 @@ export default function Navbar () {
                         <div className='text-xs text-gray-500'>Find photographers</div>
                       </div>
                     </Link>
-                    <Link href='/signin/professional' className='flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-700 rounded-xl transition-all duration-200'>
+                    <Link href='/professional/signin' className='flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-700 rounded-xl transition-all duration-200'>
                       <div className='w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center'>
                         <Camera className='w-4 h-4 text-orange-600' />
                       </div>
@@ -140,7 +140,7 @@ export default function Navbar () {
                 <div className='absolute top-full right-0 mt-2 w-52 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 animate-in fade-in slide-in-from-top-2'
                      style={{ border: `1px solid ${theme.colors.border}` }}>
                   <div className='p-2'>
-                    <Link href='/signup' className='flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all duration-200'>
+                    <Link href='/user/signup' className='flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all duration-200'>
                       <div className='w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center'>
                         <User className='w-4 h-4 text-blue-600' />
                       </div>
@@ -149,7 +149,7 @@ export default function Navbar () {
                         <div className='text-xs text-gray-500'>Book photographers</div>
                       </div>
                     </Link>
-                    <Link href='/signup/professional' className='flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-700 rounded-xl transition-all duration-200'>
+                    <Link href='/professional/signup' className='flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-700 rounded-xl transition-all duration-200'>
                       <div className='w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center'>
                         <Camera className='w-4 h-4 text-orange-600' />
                       </div>
@@ -232,7 +232,7 @@ export default function Navbar () {
                     <User className='w-3 h-3' />
                     Sign In
                   </p>
-                  <Link href='/signin' onClick={closeMenu}>
+                  <Link href='/user/signin' onClick={closeMenu}>
                     <button className='flex items-center gap-3 w-full py-3 px-4 text-sm font-medium text-gray-700 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 transition-all duration-200'>
                       <div className='w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center'>
                         <User className='w-4 h-4 text-blue-600' />
@@ -243,7 +243,7 @@ export default function Navbar () {
                       </div>
                     </button>
                   </Link>
-                  <Link href='/signin/professional' onClick={closeMenu}>
+                  <Link href='/professional/signin' onClick={closeMenu}>
                     <button className='flex items-center gap-3 w-full py-3 px-4 text-sm font-medium text-gray-700 border border-gray-200 rounded-xl hover:bg-orange-50 hover:border-orange-200 hover:text-orange-700 transition-all duration-200'>
                       <div className='w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center'>
                         <Camera className='w-4 h-4 text-orange-600' />
@@ -261,7 +261,7 @@ export default function Navbar () {
                     <UserPlus className='w-3 h-3' />
                     Get Started
                   </p>
-                  <Link href='/signup' onClick={closeMenu}>
+                  <Link href='/user/signup' onClick={closeMenu}>
                     <button className='flex items-center gap-3 w-full py-3 px-4 text-sm font-semibold bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl'>
                       <div className='w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center'>
                         <User className='w-4 h-4 text-white' />
@@ -272,7 +272,7 @@ export default function Navbar () {
                       </div>
                     </button>
                   </Link>
-                  <Link href='/signup/professional' onClick={closeMenu}>
+                  <Link href='/professional/signup' onClick={closeMenu}>
                     <button className='flex items-center gap-3 w-full py-3 px-4 text-sm font-semibold bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-xl hover:from-orange-700 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl'>
                       <div className='w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center'>
                         <Camera className='w-4 h-4 text-white' />
